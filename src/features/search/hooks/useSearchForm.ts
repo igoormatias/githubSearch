@@ -17,9 +17,15 @@ export const useSearchForm = () => {
     navigate(`/user/${trimmedUsername}`);
   };
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setUsername(suggestion);
+    navigate(`/user/${suggestion}`);
+  };
+
   return {
     username,
     setUsername,
     handleSubmit,
+    handleSuggestionClick,
   };
 };

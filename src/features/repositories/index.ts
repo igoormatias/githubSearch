@@ -1,5 +1,6 @@
 export { RepositoryCard } from "./components/RepositoryCard";
 export { RepositoryList } from "./components/RepositoryList";
+export { RepositoryListSkeleton } from "./components/RepositoryListSkeleton";
 export { RepositoryPage } from "./components/RepositoryPage";
 export { RepositorySortSelect } from "./components/RepositorySortSelect";
 export { getRepository, getUserRepositories } from "./services/repository-service";

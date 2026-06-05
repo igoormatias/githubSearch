@@ -3,6 +3,7 @@ import type { Repository, RepositorySortOption } from "../types/repository";
 import { sortRepositories } from "../utils/sort-repositories";
 import { RepositoryCard } from "./RepositoryCard";
 import { RepositorySortSelect } from "./RepositorySortSelect";
+import { EmptyState } from "@/shared/ui";
 
 type RepositoryListProps = {
   repositories: Repository[];
@@ -16,6 +17,15 @@ export const RepositoryList = ({ repositories }: RepositoryListProps) => {
     () => sortRepositories(repositories, sortOption),
     [repositories, sortOption],
   );
+
+  if (repositories.length === 0) {
+    return (
+      <EmptyState
+        title="No repositories"
+        message="This user does not have any public repositories."
+      />
+    );
+  }
 
   return (
     <section className="space-y-6">

@@ -8,8 +8,10 @@ import {
 import { UserProfile } from "./UserProfile";
 import { UserProfileSkeleton } from "./UserProfileSkeleton";
 import { UserNotFound } from "./UserNotFound";
-import { RepositoryList } from "@/features/repositories";
+import { RepositoryList, RepositoryListSkeleton } from "@/features/repositories";
 import { Container } from "@/shared/layout";
+import { ErrorState } from "@/shared/ui";
+import { getErrorMessage } from "@/shared/api";
 import type { UserPageData } from "../types/user-page";
 
 export const UserPage = () => {
@@ -20,7 +22,10 @@ export const UserPage = () => {
   if (isLoading) {
     return (
       <Container>
-        <UserProfileSkeleton />
+        <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+          <UserProfileSkeleton />
+          <RepositoryListSkeleton />
+        </div>
       </Container>
     );
   }
@@ -49,7 +54,7 @@ export const UserPageError = () => {
 
   return (
     <Container>
-      <p className="text-foreground-muted">Unable to load user profile.</p>
+      <ErrorState message={getErrorMessage(error)} />
     </Container>
   );
 };

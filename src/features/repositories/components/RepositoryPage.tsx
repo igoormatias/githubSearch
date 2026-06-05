@@ -17,6 +17,12 @@ export const RepositoryPage = () => {
         <div className="mx-auto max-w-3xl space-y-6" aria-busy="true">
           <Skeleton className="h-8 w-40" />
           <Skeleton className="h-10 w-full" />
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+          </div>
           <Skeleton className="h-48 w-full" />
         </div>
       </Container>
