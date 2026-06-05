@@ -19,3 +19,9 @@ export type Repository = {
 };
 
 export type RepositoryDetail = Repository;
+
+export type RepositorySortOption =
+  | "stars-desc"
+  | "stars-asc"
+  | "name-asc"
+  | "name-desc";
