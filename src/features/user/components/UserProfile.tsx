@@ -21,7 +21,7 @@ export const UserProfile = ({ user }: UserProfileProps) => {
       <img
         src={user.avatar_url}
         alt={`${user.login} avatar`}
-        className="h-64 w-full rounded-xl border border-border object-cover"
+        className="h-64 w-full rounded-xl border border-border object-cover sm:h-72 lg:h-64 lg:w-full"
       />
 
       <div className="space-y-2">
@@ -114,7 +114,7 @@ export const UserProfile = ({ user }: UserProfileProps) => {
 
       <Link
         to="/"
-        className="inline-flex text-sm text-primary transition-colors duration-200 hover:underline"
+        className="inline-flex text-sm text-primary transition-colors duration-200 hover:underline lg:hidden"
       >
         Back to search
       </Link>
