@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "@/shared/layout";
 import { SearchPage } from "@/features/search";
 import { UserPage, UserPageError } from "@/features/user";
+import { RepositoryPage } from "@/features/repositories";
 import { userLoader } from "./routes/user-route";
+import { repositoryLoader } from "./routes/repository-route";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +20,11 @@ export const router = createBrowserRouter([
         element: <UserPage />,
         loader: userLoader,
         errorElement: <UserPageError />,
+      },
+      {
+        path: "repository/:owner/:repo",
+        element: <RepositoryPage />,
+        loader: repositoryLoader,
       },
     ],
   },

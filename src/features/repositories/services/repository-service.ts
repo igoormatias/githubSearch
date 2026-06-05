@@ -1,5 +1,5 @@
 import { apiClient } from "@/shared/api";
-import type { Repository } from "../types/repository";
+import type { Repository, RepositoryDetail } from "../types/repository";
 
 export const getUserRepositories = async (
   username: string,
@@ -12,6 +12,17 @@ export const getUserRepositories = async (
         sort: "updated",
       },
     },
+  );
+
+  return response.data;
+};
+
+export const getRepository = async (
+  owner: string,
+  repo: string,
+): Promise<RepositoryDetail> => {
+  const response = await apiClient.get<RepositoryDetail>(
+    `/repos/${owner}/${repo}`,
   );
 
   return response.data;
