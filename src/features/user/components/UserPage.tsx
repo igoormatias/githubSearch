@@ -8,11 +8,12 @@ import {
 import { UserProfile } from "./UserProfile";
 import { UserProfileSkeleton } from "./UserProfileSkeleton";
 import { UserNotFound } from "./UserNotFound";
+import { RepositoryList } from "@/features/repositories";
 import { Container } from "@/shared/layout";
 import type { UserPageData } from "../types/user-page";
 
 export const UserPage = () => {
-  const { user } = useLoaderData() as UserPageData;
+  const { user, repositories } = useLoaderData() as UserPageData;
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
 
@@ -26,7 +27,10 @@ export const UserPage = () => {
 
   return (
     <Container>
-      <UserProfile user={user} />
+      <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+        <UserProfile user={user} />
+        <RepositoryList repositories={repositories} />
+      </div>
     </Container>
   );
 };

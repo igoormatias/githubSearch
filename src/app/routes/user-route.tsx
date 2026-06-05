@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
 import { getUser } from "@/features/user/services/user-service";
+import { getUserRepositories } from "@/features/repositories/services/repository-service";
 import { isNotFoundError } from "@/shared/api";
 
 export const userLoader = async ({ params }: LoaderFunctionArgs) => {
@@ -10,8 +11,12 @@ export const userLoader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   try {
-    const user = await getUser(username);
-    return { user };
+    const [user, repositories] = await Promise.all([
+      getUser(username),
+      getUserRepositories(username),
+    ]);
+
+    return { user, repositories };
   } catch (error) {
     if (isNotFoundError(error)) {
       throw new Response("User not found", { status: 404 });
