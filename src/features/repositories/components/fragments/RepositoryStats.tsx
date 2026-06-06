@@ -26,7 +26,7 @@ export const RepositoryStats = ({ repository }: RepositoryStatsProps) => {
       icon: FiGitBranch,
     },
     {
-      label: "Open Issues",
+      label: "Issues",
       value: formatNumber(repository.open_issues_count),
       icon: FiAlertCircle,
     },
@@ -38,17 +38,22 @@ export const RepositoryStats = ({ repository }: RepositoryStatsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {stats.map((stat) => {
         const Icon = stat.icon;
 
         return (
-          <Card key={stat.label} className="space-y-2 hover:bg-surface-hover">
+          <Card
+            key={stat.label}
+            className="flex h-full min-h-[88px] flex-col justify-between !p-4 hover:bg-surface-hover sm:!p-5"
+          >
             <div className="flex items-center gap-2 text-foreground-muted">
-              <Icon aria-hidden="true" />
-              <span className="text-xs uppercase tracking-wide">{stat.label}</span>
+              <Icon className="shrink-0" aria-hidden="true" />
+              <span className="text-sm font-medium">{stat.label}</span>
             </div>
-            <p className="text-2xl font-semibold text-foreground">{stat.value}</p>
+            <p className="text-xl font-semibold text-foreground sm:text-2xl">
+              {stat.value}
+            </p>
           </Card>
         );
       })}

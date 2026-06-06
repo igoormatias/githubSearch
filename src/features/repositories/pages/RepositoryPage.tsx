@@ -15,7 +15,7 @@ export const RepositoryPage = () => {
     return (
       <Container>
         <div
-          className="mx-auto max-w-3xl space-y-6"
+          className="mx-auto w-full min-w-0 max-w-3xl space-y-6"
           aria-busy="true"
           aria-label="Carregando..."
         >
@@ -35,7 +35,7 @@ export const RepositoryPage = () => {
 
   return (
     <Container>
-      <div className="mx-auto w-full max-w-3xl space-y-8">
+      <div className="mx-auto w-full min-w-0 max-w-3xl space-y-8">
         <Card className="space-y-8">
           <RepositoryHeader repository={repository} />
           <RepositoryStats repository={repository} />

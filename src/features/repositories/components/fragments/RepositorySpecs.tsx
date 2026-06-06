@@ -19,7 +19,7 @@ export const RepositorySpecs = ({ repository }: RepositorySpecsProps) => {
 
   return (
     <Card className="space-y-4">
-      <h2 className="text-lg font-semibold text-foreground">Repository</h2>
+      <h2 className="text-lg font-semibold text-foreground">Repositório</h2>
       <dl className="space-y-4">
         {specs.map((spec) => (
           <div

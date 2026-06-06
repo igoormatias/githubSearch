@@ -15,22 +15,22 @@ export const RepositorySortSelect = ({
     <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
       <label
         htmlFor="repository-sort"
-        className="text-sm font-medium text-foreground"
+        className="cursor-pointer text-sm font-medium text-foreground"
       >
         Ordenar por
       </label>
-      <div className="relative w-full sm:w-auto">
+      <div className="relative w-full cursor-pointer sm:w-auto">
         <select
           id="repository-sort"
           value={value}
           onChange={(event) =>
             onChange(event.target.value as RepositorySortOption)
           }
-          className="min-h-[44px] w-full cursor-pointer appearance-none rounded-xl border border-border bg-surface py-2.5 pl-4 pr-10 text-sm text-foreground transition-colors duration-200 hover:bg-surface-hover focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[220px]"
+          className="min-h-[44px] w-full cursor-pointer appearance-none rounded-xl border border-border bg-surface py-2.5 pl-4 pr-10 text-sm text-foreground transition-colors duration-200 hover:cursor-pointer hover:bg-surface-hover focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[220px]"
           aria-label="Ordenar repositórios"
         >
           {Object.entries(repositorySortLabels).map(([option, label]) => (
-            <option key={option} value={option}>
+            <option key={option} value={option} className="cursor-pointer">
               {label}
             </option>
           ))}
