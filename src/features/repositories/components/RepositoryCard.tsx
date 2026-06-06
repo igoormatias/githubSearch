@@ -21,7 +21,7 @@ export const RepositoryCard = ({ repository }: RepositoryCardProps) => {
     languageColors[repository.language ?? ""] ?? "bg-secondary";
 
   return (
-    <Card className="flex h-full w-full max-w-full min-w-0 flex-col gap-2 !p-4 hover:bg-surface-hover sm:gap-3 sm:!p-5 lg:!p-6">
+    <Card className="flex h-full w-full max-w-full min-w-0 flex-col gap-2 p-4 hover:bg-surface-hover sm:gap-3 sm:p-5 lg:p-6">
       <div className="space-y-1">
         <div className="flex flex-wrap items-center gap-2">
           <Link

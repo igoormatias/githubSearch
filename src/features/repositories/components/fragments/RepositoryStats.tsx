@@ -45,7 +45,7 @@ export const RepositoryStats = ({ repository }: RepositoryStatsProps) => {
         return (
           <Card
             key={stat.label}
-            className="flex h-full min-h-[88px] flex-col justify-between !p-4 hover:bg-surface-hover sm:!p-5"
+            className="flex h-full min-h-[88px] flex-col justify-between p-4 hover:bg-surface-hover sm:p-5"
           >
             <div className="flex items-center gap-2 text-foreground-muted">
               <Icon className="shrink-0" aria-hidden="true" />

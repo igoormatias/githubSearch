@@ -22,7 +22,7 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold break-words text-foreground [overflow-wrap:anywhere] sm:text-3xl">
+            <h1 className="text-2xl font-bold wrap-anywhere text-foreground sm:text-3xl">
               {repository.full_name}
             </h1>
             {!repository.private && (

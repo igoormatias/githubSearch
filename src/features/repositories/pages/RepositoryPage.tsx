@@ -36,7 +36,7 @@ export const RepositoryPage = () => {
   return (
     <Container>
       <div className="mx-auto w-full min-w-0 max-w-3xl space-y-8">
-        <Card className="space-y-8">
+        <Card className="space-y-8 p-6">
           <RepositoryHeader repository={repository} />
           <RepositoryStats repository={repository} />
           <RepositorySpecs repository={repository} />
