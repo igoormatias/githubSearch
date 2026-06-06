@@ -1,9 +1,9 @@
 import { useLoaderData, useNavigation } from "react-router-dom";
 import type { RepositoryDetail } from "../types/repository";
-import { RepositoryHeader } from "./fragments/RepositoryHeader";
-import { RepositorySpecs } from "./fragments/RepositorySpecs";
-import { RepositoryStats } from "./fragments/RepositoryStats";
-import { Container } from "@/shared/layout";
+import { RepositoryHeader } from "../components/fragments/RepositoryHeader";
+import { RepositorySpecs } from "../components/fragments/RepositorySpecs";
+import { RepositoryStats } from "../components/fragments/RepositoryStats";
+import { Container } from "@/app/layouts";
 import { Card, Skeleton } from "@/shared/ui";
 
 export const RepositoryPage = () => {
@@ -14,7 +14,11 @@ export const RepositoryPage = () => {
   if (isLoading) {
     return (
       <Container>
-        <div className="mx-auto max-w-3xl space-y-6" aria-busy="true">
+        <div
+          className="mx-auto max-w-3xl space-y-6"
+          aria-busy="true"
+          aria-label="Carregando..."
+        >
           <Skeleton className="h-8 w-40" />
           <Skeleton className="h-10 w-full" />
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -31,7 +35,7 @@ export const RepositoryPage = () => {
 
   return (
     <Container>
-      <div className="mx-auto max-w-3xl space-y-8">
+      <div className="mx-auto w-full max-w-3xl space-y-8">
         <Card className="space-y-8">
           <RepositoryHeader repository={repository} />
           <RepositoryStats repository={repository} />

@@ -21,22 +21,22 @@ export const RepositoryList = ({ repositories }: RepositoryListProps) => {
   if (repositories.length === 0) {
     return (
       <EmptyState
-        title="No repositories"
-        message="This user does not have any public repositories."
+        title="Nenhum repositório encontrado"
+        message="Este usuário não possui repositórios públicos."
       />
     );
   }
 
   return (
-    <section className="space-y-6">
+    <section className="w-full min-w-0 space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-semibold text-foreground">
-          Repositories ({repositories.length})
+          Repositórios ({repositories.length})
         </h2>
         <RepositorySortSelect value={sortOption} onChange={setSortOption} />
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid w-full gap-4">
         {sortedRepositories.map((repository) => (
           <RepositoryCard key={repository.id} repository={repository} />
         ))}

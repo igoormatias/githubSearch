@@ -1,5 +1,12 @@
 import type { Repository, RepositorySortOption } from "../types/repository";
 
+export const repositorySortLabels = {
+  "stars-desc": " Mais estrelas",
+  "stars-asc": " Menos estrelas",
+  "name-asc": " Nome (A-Z)",
+  "name-desc": " Nome (Z-A)",
+} as const;
+
 export const sortRepositories = (
   repositories: Repository[],
   sortOption: RepositorySortOption,
@@ -18,11 +25,4 @@ export const sortRepositories = (
     default:
       return sorted;
   }
-};
-
-export const repositorySortLabels: Record<RepositorySortOption, string> = {
-  "stars-desc": "Stars (High to Low)",
-  "stars-asc": "Stars (Low to High)",
-  "name-asc": "Name (A-Z)",
-  "name-desc": "Name (Z-A)",
 };

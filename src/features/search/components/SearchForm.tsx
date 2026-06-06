@@ -31,19 +31,19 @@ export const SearchForm = ({
           type="search"
           value={username}
           onChange={(event) => onUsernameChange(event.target.value)}
-          placeholder="Enter username (e.g., torvalds)"
+          placeholder="Digite o username (ex.: torvalds)"
           className="pl-11"
           disabled={disabled}
-          aria-label="GitHub username"
+          aria-label="Username do GitHub"
         />
       </div>
       <Button
         type="submit"
         disabled={disabled || !username.trim()}
-        aria-label="Search GitHub user"
+        aria-label="Buscar usuário no GitHub"
         className="w-full sm:w-auto"
       >
-        Search
+        Buscar
       </Button>
     </form>
   );

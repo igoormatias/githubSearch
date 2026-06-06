@@ -1,5 +1,5 @@
 import { Link, useRouteError, isRouteErrorResponse } from "react-router-dom";
-import { Container } from "@/shared/layout";
+import { Container } from "@/app/layouts";
 import { Button, ErrorState } from "@/shared/ui";
 import { getErrorMessage } from "@/shared/api";
 
@@ -11,11 +11,11 @@ export const RootErrorBoundary = () => {
       <Container className="py-12">
         <div className="mx-auto max-w-lg space-y-4 text-center">
           <ErrorState
-            title="Page not found"
-            message="The page you are looking for does not exist."
+            title="Página não encontrada"
+            message="A página que você procura não existe."
           />
           <Link to="/">
-            <Button aria-label="Back to home">Back to search</Button>
+            <Button aria-label="Voltar para busca">Voltar</Button>
           </Link>
         </div>
       </Container>
@@ -25,7 +25,10 @@ export const RootErrorBoundary = () => {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-lg">
-        <ErrorState message={getErrorMessage(error)} />
+        <ErrorState
+          title="Erro ao carregar dados"
+          message={getErrorMessage(error)}
+        />
       </div>
     </Container>
   );

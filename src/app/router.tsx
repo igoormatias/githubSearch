@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AppLayout } from "@/shared/layout";
+import { AppLayout } from "@/app/layouts";
 import { SearchPage } from "@/features/search";
-import { UserPage, UserPageError } from "@/features/user";
+import { UserPage } from "@/features/github-user";
 import { RepositoryPage } from "@/features/repositories";
 import { RootErrorBoundary } from "./RootErrorBoundary";
-import { userLoader } from "./routes/user-route";
 import { repositoryLoader } from "./routes/repository-route";
 
 export const router = createBrowserRouter([
@@ -20,8 +19,6 @@ export const router = createBrowserRouter([
       {
         path: "user/:username",
         element: <UserPage />,
-        loader: userLoader,
-        errorElement: <UserPageError />,
       },
       {
         path: "repository/:owner/:repo",

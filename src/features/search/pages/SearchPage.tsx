@@ -1,9 +1,9 @@
-import { Container } from "@/shared/layout";
+import { Container } from "@/app/layouts";
 import { ErrorState } from "@/shared/ui";
-import { SearchForm } from "./SearchForm";
-import { SearchHero } from "./SearchHero";
-import { SearchPageSkeleton } from "./SearchPageSkeleton";
-import { SearchSuggestions } from "./SearchSuggestions";
+import { SearchForm } from "../components/SearchForm";
+import { SearchHero } from "../components/SearchHero";
+import { SearchPageSkeleton } from "../components/SearchPageSkeleton";
+import { SearchSuggestions } from "../components/SearchSuggestions";
 import { useSearchForm } from "../hooks/useSearchForm";
 
 type SearchPageView = "initial" | "loading" | "error";
@@ -15,7 +15,7 @@ type SearchPageProps = {
 
 export const SearchPage = ({
   view = "initial",
-  errorMessage = "Unable to load the search page. Please try again.",
+  errorMessage = "Erro ao carregar dados. Tente novamente.",
 }: SearchPageProps) => {
   const { username, setUsername, handleSubmit, handleSuggestionClick } =
     useSearchForm();

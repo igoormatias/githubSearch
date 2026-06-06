@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -13,5 +14,19 @@ export default defineConfig({
   server: {
     host: "localhost",
     port: 3000,
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/test/setup.ts"],
+    coverage: {
+      provider: "v8",
+      include: [
+        "src/features/github-user/hooks/**",
+        "src/features/repositories/hooks/**",
+        "src/features/repositories/utils/**",
+        "src/shared/lib/**",
+      ],
+    },
   },
 });

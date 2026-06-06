@@ -14,11 +14,11 @@ export const isNotFoundError = (error: unknown): boolean => {
 export const getErrorMessage = (error: unknown): string => {
   if (isAxiosError(error)) {
     if (error.response?.status === 403) {
-      return "GitHub API rate limit exceeded. Please try again later.";
+      return "Limite de requisições da API do GitHub excedido.";
     }
 
     if (error.response?.status === 404) {
-      return "Resource not found.";
+      return "Recurso não encontrado.";
     }
 
     return error.message;
@@ -28,5 +28,5 @@ export const getErrorMessage = (error: unknown): string => {
     return error.message;
   }
 
-  return "An unexpected error occurred.";
+  return "Não foi possível carregar os dados. Tente novamente.";
 };

@@ -8,7 +8,7 @@ type ErrorStateProps = {
 };
 
 export const ErrorState = ({
-  title = "Something went wrong",
+  title = "Erro ao carregar dados",
   message,
   onRetry,
 }: ErrorStateProps) => {
@@ -23,8 +23,8 @@ export const ErrorState = ({
         <p className="text-sm text-foreground-muted">{message}</p>
       </div>
       {onRetry && (
-        <Button onClick={onRetry} aria-label="Retry">
-          Try again
+        <Button onClick={onRetry} aria-label="Tentar novamente">
+          Tentar novamente
         </Button>
       )}
     </div>

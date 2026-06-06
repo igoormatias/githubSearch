@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import { getRepository } from "@/features/repositories/services/repository-service";
+import { getRepository } from "@/features/repositories";
 import { isNotFoundError } from "@/shared/api";
 
 export const repositoryLoader = async ({ params }: LoaderFunctionArgs) => {

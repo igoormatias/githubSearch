@@ -5,7 +5,7 @@ type SkeletonProps = {
 export const Skeleton = ({ className = "" }: SkeletonProps) => {
   return (
     <div
-      className={`animate-pulse rounded-xl bg-surface-hover ${className}`}
+      className={`skeleton-shimmer rounded-xl ${className}`}
       aria-hidden="true"
     />
   );

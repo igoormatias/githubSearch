@@ -8,8 +8,8 @@ export const Header = () => {
       <Container className="py-4">
         <Link
           to="/"
-          className="inline-flex items-center gap-3 text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          aria-label="Go to home page"
+          className="inline-flex cursor-pointer items-center gap-3 text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label="Ir para página inicial"
         >
           <FaGithub className="h-6 w-6 text-primary" aria-hidden="true" />
           <span className="text-lg font-semibold">GitHub User Explorer</span>

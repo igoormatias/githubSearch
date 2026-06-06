@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0d1117;
+  --color-surface: #161b22;
+  --color-surface-hover: #1f2630;
+
+  --color-border: #30363d;
+
+  --color-primary: #58a6ff;
+  --color-secondary: #8b949e;
+  --color-tertiary: #da9600;
+
+  --color-foreground: #e6edf3;
+  --color-foreground-muted: #8b949e;
+
+  --color-success: #3fb950;
+  --color-danger: #f85149;
+
+  --radius-xl: 12px;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@layer utilities {
+  .skeleton-shimmer {
+    @apply relative overflow-hidden border border-border bg-surface;
+  }
+
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-surface-hover) 70%, transparent),
+      transparent
+    );
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+}

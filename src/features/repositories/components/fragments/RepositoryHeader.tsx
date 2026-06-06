@@ -12,16 +12,16 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
     <div className="space-y-4">
       <Link
         to={`/user/${repository.owner.login}`}
-        className="inline-flex items-center gap-2 text-sm text-foreground-muted transition-colors duration-200 hover:text-primary"
+        className="inline-flex cursor-pointer items-center gap-2 text-sm text-foreground-muted transition-colors duration-200 hover:text-primary"
       >
         <FiArrowLeft aria-hidden="true" />
-        Back to repositories
+        Voltar
       </Link>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-2">
+        <div className="min-w-0 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+            <h1 className="text-2xl font-bold break-words text-foreground sm:text-3xl">
               {repository.full_name}
             </h1>
             {!repository.private && (
@@ -41,10 +41,10 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
           href={repository.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0"
+          className="shrink-0 cursor-pointer"
         >
-          <Button aria-label="Open repository on GitHub">
-            Open on GitHub
+          <Button aria-label="Abrir repositório no GitHub">
+            Abrir no GitHub
             <FiExternalLink aria-hidden="true" />
           </Button>
         </a>

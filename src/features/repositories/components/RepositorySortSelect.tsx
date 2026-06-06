@@ -1,3 +1,4 @@
+import { FiChevronDown } from "react-icons/fi";
 import type { RepositorySortOption } from "../types/repository";
 import { repositorySortLabels } from "../utils/sort-repositories";
 
@@ -11,25 +12,34 @@ export const RepositorySortSelect = ({
   onChange,
 }: RepositorySortSelectProps) => {
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <label htmlFor="repository-sort" className="text-sm font-medium text-foreground">
-        Sort repositories
-      </label>
-      <select
-        id="repository-sort"
-        value={value}
-        onChange={(event) =>
-          onChange(event.target.value as RepositorySortOption)
-        }
-        className="rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-foreground transition-colors duration-200 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-        aria-label="Sort repositories"
+    <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
+      <label
+        htmlFor="repository-sort"
+        className="text-sm font-medium text-foreground"
       >
-        {Object.entries(repositorySortLabels).map(([option, label]) => (
-          <option key={option} value={option}>
-            {label}
-          </option>
-        ))}
-      </select>
+        Ordenar por
+      </label>
+      <div className="relative w-full sm:w-auto">
+        <select
+          id="repository-sort"
+          value={value}
+          onChange={(event) =>
+            onChange(event.target.value as RepositorySortOption)
+          }
+          className="min-h-[44px] w-full cursor-pointer appearance-none rounded-xl border border-border bg-surface py-2.5 pl-4 pr-10 text-sm text-foreground transition-colors duration-200 hover:bg-surface-hover focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[220px]"
+          aria-label="Ordenar repositórios"
+        >
+          {Object.entries(repositorySortLabels).map(([option, label]) => (
+            <option key={option} value={option}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <FiChevronDown
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted"
+          aria-hidden="true"
+        />
+      </div>
     </div>
   );
 };

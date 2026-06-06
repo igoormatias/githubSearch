@@ -1,6 +1,6 @@
 import { FiAlertCircle, FiEye, FiGitBranch, FiStar } from "react-icons/fi";
 import type { RepositoryDetail } from "../../types/repository";
-import { formatNumber } from "@/shared/utils";
+import { formatNumber } from "@/shared/lib";
 import { Card } from "@/shared/ui";
 
 type RepositoryStatsProps = {
