@@ -7,9 +7,9 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 ## Como usar
 
 1. Acesse a [demo](https://desafio-github-search.vercel.app/) ou rode localmente com `npm install && npm run dev`.
-2. Na home, digite um username (ex.: `vercel`) ou clique em uma sugestão e pressione **Buscar**.
+2. Na home, digite um username (ex.: `torvalds`) ou clique em uma sugestão e pressione **Buscar**.
 3. Na página do usuário, confira o perfil à esquerda (desktop) ou no topo (mobile) e a lista de repositórios.
-4. Use **Ordenar por** para alternar entre **Mais estrelas** (padrão) e **Menos estrelas**.
+4. Use **Ordenar por** para alternar entre **Mais estrelas** (`sort=stars-desc`, padrão) e **Menos estrelas** (`sort=stars-asc`).
 5. Navegue entre páginas com os controles de paginação (10 repositórios por página).
 6. Clique em um repositório para ver os detalhes; use **Abrir no GitHub** para abrir a página oficial.
 7. Teste um username inexistente (ex.: `usuario-que-nao-existe-123`) para ver o estado de erro 404.
@@ -22,7 +22,7 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 
 ## Funcionalidades
 
-- **Busca de usuários** — campo com sugestões rápidas (`gaearon`, `torvalds`, `vercel`, `kentcdodds`)
+- **Busca de usuários** — campo com sugestões rápidas (`lucasmontano`, `torvalds`, `diego3g`, `maykbrito`)
 - **Perfil do usuário** — avatar, bio, site, link externo para o GitHub, contadores de repositórios, seguidores e seguindo
 - **Listagem de repositórios** — cards com linguagem, estrelas, forks e data de atualização; paginação de 10 por página
 - **Ordenação por estrelas** — mais estrelas (padrão) ou menos estrelas via GitHub Search API
@@ -81,15 +81,32 @@ npm run test
 npm run test:coverage
 ```
 
-Testes cobrem hooks (`useGithubUser`, `useRepositories`), services (`searchUserRepositories`), utils (`mapSortToSearchOrder`, `format`) e componentes (`SearchForm`, `RepositoryCard`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`).
+O projeto possui **12 arquivos de teste** (45 testes no total), cobrindo:
+
+- **Hooks:** `useGithubUser`, `useRepositories`
+- **Services:** `searchUserRepositories`
+- **Utils:** `mapSortToSearchOrder`, `format`, `parsePageParam`, `parseSortParam`
+- **Páginas:** `UserPage`
+- **Componentes:** `SearchForm`, `RepositoryCard`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
+
+**Cobertura (`npm run test:coverage`):** o relatório mede os módulos-fonte cobertos pelos testes acima — hooks, services, utils, componentes testados, `UserPage` e `shared/lib` (conforme `vite.config.ts`).
 
 ## Rotas
 
 | Rota | Descrição |
 |------|-----------|
 | `/` | Página de busca |
-| `/user/:username` | Perfil do usuário e repositórios (suporta `?page=` e `?sort=`) |
+| `/user/:username` | Perfil do usuário e repositórios |
 | `/repository/:owner/:repo` | Detalhes do repositório |
+
+### Query params (`/user/:username`)
+
+| Param | Valores | Padrão | Descrição |
+|-------|---------|--------|-----------|
+| `page` | inteiro ≥ 1 | `1` | Página atual da listagem |
+| `sort` | `stars-desc`, `stars-asc` | `stars-desc` | Ordenação por estrelas (mais/menos) |
+
+Exemplo: `/user/torvalds?page=2&sort=stars-asc`
 
 ## API
 
@@ -98,7 +115,7 @@ Utiliza a API REST pública do GitHub (sem autenticação):
 | Endpoint | Uso |
 |----------|-----|
 | `GET /users/{username}` | Dados do perfil |
-| `GET /search/repositories?q=user:{username}&sort=stars` | Lista paginada de repositórios ordenados por estrelas |
+| `GET /search/repositories?q=user:{username}&sort=stars&order={desc\|asc}&per_page=10&page={n}` | Lista paginada de repositórios ordenados por estrelas |
 | `GET /repos/{owner}/{repo}` | Detalhes do repositório |
 
 ## Arquitetura
@@ -110,14 +127,14 @@ src/
 ├── app/              # router, layouts, loaders, providers, error boundary
 ├── features/
 │   ├── search/       # busca de usuários
-│   ├── github-user/  # perfil e hook useGithubUser
+│   ├── github-user/  # perfil, useGithubUser, useUserPageParams e parsers de URL
 │   └── repositories/ # listagem, paginação, detalhes e hook useRepositories
 └── shared/           # api, ui, lib, styles
 ```
 
-- **TanStack Query** — cache de 5 min para perfil e repositórios; `queryKey` por `(username, page, sort)`
+- **TanStack Query** — cache de 5 min; `queryKey` `["user", username]` para perfil e `["repositories", username, page, sort]` para repositórios
 - **Hooks** (`useGithubUser`, `useRepositories`) — consomem services Axios via `useQuery`
-- **Estado na URL** — `page` e `sort` em query params na rota do usuário
+- **Estado na URL** — `useUserPageParams` sincroniza `page` e `sort` na rota do usuário; query params são resetados ao trocar de username
 - **Loader** (`repositoryLoader`) — pré-carrega dados na rota de detalhes do repositório
 - **Barrel exports** (`index.ts`) em cada feature — evitar deep imports
 - **Design tokens** — cores e tipografia centralizados em `src/shared/styles/`
@@ -137,12 +154,13 @@ O edital cita Bootstrap como referência de **layout responsivo**, não como fra
 
 A listagem usa `GET /search/repositories?q=user:{username}&sort=stars` para garantir repositórios ordenados por popularidade globalmente, inclusive para usuários com 100+ repos. Paginação de 10 itens por página com `total_count` da API.
 
-Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 req/min sem autenticação. TanStack Query mitiga re-fetch com cache de 5 minutos.
+Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 req/min sem autenticação (erro 403 exibido via `getErrorMessage`). TanStack Query mitiga re-fetch com cache de 5 minutos.
 
 ### TanStack Query
 
-- Cache por `(user, username)`, `(repositories, username, page, sort)`
+- Cache por `["user", username]` e `["repositories", username, page, sort]`
 - Revisitas à mesma página ou usuário não disparam nova requisição dentro do `staleTime`
+- `placeholderData: keepPreviousData` mantém a listagem visível durante troca de página, evitando flicker
 - `isFetching` desabilita controles de paginação durante troca de página
 
 ---
