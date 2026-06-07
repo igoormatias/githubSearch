@@ -164,7 +164,3 @@ Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 re
 - `isFetching` desabilita controles de paginação durante troca de página
 
 ---
-
-Desenvolvido por **Igor Matias** para o desafio técnico **Desbravador Software**.
-
-Repositório: [github.com/igoormatias/githubSearch](https://github.com/igoormatias/githubSearch)
