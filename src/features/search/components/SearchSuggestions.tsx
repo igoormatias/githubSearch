@@ -1,4 +1,4 @@
-const SUGGESTIONS = ["gaearon", "torvalds", "vercel", "kentcdodds"] as const;
+const SUGGESTIONS = ["lucasmontano", "torvalds", "diego3g", "maykbrito"] as const;
 
 type SearchSuggestionsProps = {
   onSuggestionClick: (username: string) => void;

@@ -1,6 +1,6 @@
 import { FiChevronDown } from "react-icons/fi";
 import type { RepositorySortOption } from "../types/repository";
-import { repositorySortLabels } from "../utils/sort-repositories";
+import { repositorySortLabels } from "../types/repository";
 
 type RepositorySortSelectProps = {
   value: RepositorySortOption;

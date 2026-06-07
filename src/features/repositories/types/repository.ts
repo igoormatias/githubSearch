@@ -20,8 +20,24 @@ export type Repository = {
 
 export type RepositoryDetail = Repository;
 
-export type RepositorySortOption =
-  | "stars-desc"
-  | "stars-asc"
-  | "name-asc"
-  | "name-desc";
+export type RepositorySortOption = "stars-desc" | "stars-asc";
+
+export type RepositorySearchResponse = {
+  total_count: number;
+  items: Repository[];
+};
+
+export const REPOSITORIES_PER_PAGE = 10;
+
+export const repositorySortLabels: Record<RepositorySortOption, string> = {
+  "stars-desc": "⭐ Mais estrelas",
+  "stars-asc": "⭐ Menos estrelas",
+};
+
+export const DEFAULT_REPOSITORY_SORT: RepositorySortOption = "stars-desc";
+
+export const isRepositorySortOption = (
+  value: string | null,
+): value is RepositorySortOption => {
+  return value === "stars-desc" || value === "stars-asc";
+};

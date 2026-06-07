@@ -1,6 +1,7 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { waitFor } from "@testing-library/react";
 import { AxiosError } from "axios";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { renderHookWithProviders } from "@/test/test-utils";
 import { useGithubUser } from "./useGithubUser";
 import { getUser } from "../services/user-service";
 import type { GitHubUser } from "../types/user";
@@ -33,7 +34,7 @@ describe("useGithubUser", () => {
   it("should return loading then success", async () => {
     vi.mocked(getUser).mockResolvedValue(mockUser);
 
-    const { result } = renderHook(() => useGithubUser("octocat"));
+    const { result } = renderHookWithProviders(() => useGithubUser("octocat"));
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.user).toBeNull();
@@ -51,7 +52,7 @@ describe("useGithubUser", () => {
     const error = new Error("Network error");
     vi.mocked(getUser).mockRejectedValue(error);
 
-    const { result } = renderHook(() => useGithubUser("octocat"));
+    const { result } = renderHookWithProviders(() => useGithubUser("octocat"));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -63,11 +64,17 @@ describe("useGithubUser", () => {
 
   it("should return axios 404 error", async () => {
     const error = new AxiosError("Not Found");
-    error.response = { status: 404, data: {}, headers: {}, statusText: "Not Found", config: {} as never };
+    error.response = {
+      status: 404,
+      data: {},
+      headers: {},
+      statusText: "Not Found",
+      config: {} as never,
+    };
 
     vi.mocked(getUser).mockRejectedValue(error);
 
-    const { result } = renderHook(() => useGithubUser("missing"));
+    const { result } = renderHookWithProviders(() => useGithubUser("missing"));
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -77,24 +84,11 @@ describe("useGithubUser", () => {
     expect(result.current.error).toBe(error);
   });
 
-  it("should reset when username is undefined", async () => {
-    vi.mocked(getUser).mockResolvedValue(mockUser);
-
-    const initialProps: { username?: string } = { username: "octocat" };
-
-    const { result, rerender } = renderHook(
-      ({ username }: { username?: string }) => useGithubUser(username),
-      { initialProps },
-    );
-
-    await waitFor(() => {
-      expect(result.current.user).toEqual(mockUser);
-    });
-
-    rerender({ username: undefined });
+  it("should not fetch when username is undefined", async () => {
+    const { result } = renderHookWithProviders(() => useGithubUser(undefined));
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.user).toBeNull();
-    expect(result.current.error).toBeNull();
+    expect(getUser).not.toHaveBeenCalled();
   });
 });

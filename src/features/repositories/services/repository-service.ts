@@ -1,15 +1,27 @@
 import { apiClient } from "@/shared/api";
-import type { Repository, RepositoryDetail } from "../types/repository";
+import type {
+  RepositoryDetail,
+  RepositorySearchResponse,
+  RepositorySortOption,
+} from "../types/repository";
+import { REPOSITORIES_PER_PAGE } from "../types/repository";
+import { mapSortToSearchOrder } from "../utils/map-sort-to-search-order";
 
-export const getUserRepositories = async (
+export const searchUserRepositories = async (
   username: string,
-): Promise<Repository[]> => {
-  const response = await apiClient.get<Repository[]>(
-    `/users/${username}/repos`,
+  page: number,
+  sort: RepositorySortOption,
+): Promise<RepositorySearchResponse> => {
+  const order = mapSortToSearchOrder(sort);
+  const response = await apiClient.get<RepositorySearchResponse>(
+    "/search/repositories",
     {
       params: {
-        per_page: 100,
-        sort: "updated",
+        q: `user:${username}`,
+        sort: "stars",
+        order,
+        per_page: REPOSITORIES_PER_PAGE,
+        page,
       },
     },
   );

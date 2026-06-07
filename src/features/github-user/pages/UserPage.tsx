@@ -2,8 +2,11 @@ import { useParams } from "react-router-dom";
 import { UserProfile } from "../components/UserProfile";
 import { UserNotFound } from "../components/UserNotFound";
 import { useGithubUser } from "../hooks/useGithubUser";
-import { RepositoryList } from "@/features/repositories";
-import { useRepositories } from "@/features/repositories";
+import { useUserPageParams } from "../hooks/useUserPageParams";
+import {
+  RepositoryList,
+  useRepositories,
+} from "@/features/repositories";
 import {
   UserProfileSkeleton,
   RepositoryListSkeleton,
@@ -14,18 +17,24 @@ import { Container } from "@/app/layouts";
 
 export const UserPage = () => {
   const { username } = useParams();
+  const { page, sort, handlePageChange, handleSortChange } =
+    useUserPageParams(username);
+
   const { user, isLoading: isUserLoading, error: userError } =
     useGithubUser(username);
   const {
     repositories,
+    totalCount,
     isLoading: isRepositoriesLoading,
+    isFetching: isRepositoriesFetching,
     error: repositoriesError,
-  } = useRepositories(username);
+  } = useRepositories(username, page, sort);
 
-  const isLoading = isUserLoading || isRepositoriesLoading;
-  const error = userError ?? repositoriesError;
+  const isInitialLoading =
+    isUserLoading ||
+    (isRepositoriesLoading && repositories.length === 0 && !repositoriesError);
 
-  if (isLoading) {
+  if (isInitialLoading) {
     return (
       <Container>
         <div
@@ -40,8 +49,8 @@ export const UserPage = () => {
     );
   }
 
-  if (error) {
-    if (isNotFoundError(error)) {
+  if (userError) {
+    if (isNotFoundError(userError)) {
       return (
         <Container>
           <UserNotFound username={username ?? "unknown"} />
@@ -53,14 +62,21 @@ export const UserPage = () => {
       <Container>
         <ErrorState
           title="Erro ao carregar dados"
-          message={getErrorMessage(error)}
+          message={getErrorMessage(userError)}
         />
       </Container>
     );
   }
 
   if (!user) {
-    return null;
+    return (
+      <Container>
+        <ErrorState
+          title="Erro ao carregar dados"
+          message="Não foi possível carregar o perfil do usuário."
+        />
+      </Container>
+    );
   }
 
   return (
@@ -68,7 +84,22 @@ export const UserPage = () => {
       <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,280px)_1fr]">
         <UserProfile user={user} />
         <div className="min-w-0">
-          <RepositoryList repositories={repositories} />
+          {repositoriesError ? (
+            <ErrorState
+              title="Erro ao carregar repositórios"
+              message={getErrorMessage(repositoriesError)}
+            />
+          ) : (
+            <RepositoryList
+              repositories={repositories}
+              totalCount={totalCount}
+              page={page}
+              sort={sort}
+              onSortChange={handleSortChange}
+              onPageChange={handlePageChange}
+              isFetching={isRepositoriesFetching}
+            />
+          )}
         </div>
       </div>
     </Container>

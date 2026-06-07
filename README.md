@@ -1,6 +1,6 @@
 # GitHub User Explorer
 
-Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perfil, listar repositórios com ordenação e mostrar detalhes de cada repositório.
+Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perfil, listar repositórios com ordenação e paginação, e mostrar detalhes de cada repositório.
 
 **Demo em produção:** [https://desafio-github-search.vercel.app/](https://desafio-github-search.vercel.app/)
 
@@ -9,9 +9,10 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 1. Acesse a [demo](https://desafio-github-search.vercel.app/) ou rode localmente com `npm install && npm run dev`.
 2. Na home, digite um username (ex.: `vercel`) ou clique em uma sugestão e pressione **Buscar**.
 3. Na página do usuário, confira o perfil à esquerda (desktop) ou no topo (mobile) e a lista de repositórios.
-4. Use **Ordenar por** para alternar entre estrelas, forks, nome ou data de atualização.
-5. Clique em um repositório para ver os detalhes; use **Abrir no GitHub** para abrir a página oficial.
-6. Teste um username inexistente (ex.: `usuario-que-nao-existe-123`) para ver o estado de erro 404.
+4. Use **Ordenar por** para alternar entre **Mais estrelas** (padrão) e **Menos estrelas**.
+5. Navegue entre páginas com os controles de paginação (10 repositórios por página).
+6. Clique em um repositório para ver os detalhes; use **Abrir no GitHub** para abrir a página oficial.
+7. Teste um username inexistente (ex.: `usuario-que-nao-existe-123`) para ver o estado de erro 404.
 
 ## Screenshots
 
@@ -23,11 +24,12 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 
 - **Busca de usuários** — campo com sugestões rápidas (`gaearon`, `torvalds`, `vercel`, `kentcdodds`)
 - **Perfil do usuário** — avatar, bio, site, link externo para o GitHub, contadores de repositórios, seguidores e seguindo
-- **Listagem de repositórios** — cards com linguagem, estrelas, forks e data de atualização
-- **Ordenação** — por estrelas (padrão), forks, nome ou data de atualização
+- **Listagem de repositórios** — cards com linguagem, estrelas, forks e data de atualização; paginação de 10 por página
+- **Ordenação por estrelas** — mais estrelas (padrão) ou menos estrelas via GitHub Search API
 - **Detalhes do repositório** — metadados completos e botão "Abrir no GitHub"
 - **Estados de UI** — skeletons com shimmer, mensagens de erro e usuário não encontrado (404)
 - **Layout responsivo** — mobile-first; inputs com `font-size` ≥ 16px para evitar zoom automático no iOS Safari
+- **Cache de dados** — TanStack Query evita re-fetch desnecessário ao navegar entre páginas
 
 ## Stack
 
@@ -35,6 +37,7 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 - Vite
 - Tailwind CSS v4
 - React Router DOM
+- TanStack Query v5
 - Axios
 - React Icons
 - Vitest + Testing Library
@@ -78,14 +81,14 @@ npm run test
 npm run test:coverage
 ```
 
-29 testes cobrem hooks (`useGithubUser`, `useRepositories`), utilitários (`sort-repositories`, `format`), e componentes (`SearchForm`, `RepositoryCard`, `RepositorySortSelect`).
+Testes cobrem hooks (`useGithubUser`, `useRepositories`), services (`searchUserRepositories`), utils (`mapSortToSearchOrder`, `format`) e componentes (`SearchForm`, `RepositoryCard`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`).
 
 ## Rotas
 
 | Rota | Descrição |
 |------|-----------|
 | `/` | Página de busca |
-| `/user/:username` | Perfil do usuário e repositórios |
+| `/user/:username` | Perfil do usuário e repositórios (suporta `?page=` e `?sort=`) |
 | `/repository/:owner/:repo` | Detalhes do repositório |
 
 ## API
@@ -95,7 +98,7 @@ Utiliza a API REST pública do GitHub (sem autenticação):
 | Endpoint | Uso |
 |----------|-----|
 | `GET /users/{username}` | Dados do perfil |
-| `GET /users/{username}/repos` | Lista de repositórios |
+| `GET /search/repositories?q=user:{username}&sort=stars` | Lista paginada de repositórios ordenados por estrelas |
 | `GET /repos/{owner}/{repo}` | Detalhes do repositório |
 
 ## Arquitetura
@@ -104,33 +107,43 @@ Projeto organizado por features em `src/features/`:
 
 ```
 src/
-├── app/              # router, layouts, loaders, error boundary
+├── app/              # router, layouts, loaders, providers, error boundary
 ├── features/
 │   ├── search/       # busca de usuários
 │   ├── github-user/  # perfil e hook useGithubUser
-│   └── repositories/ # listagem, ordenação, detalhes e hook useRepositories
+│   └── repositories/ # listagem, paginação, detalhes e hook useRepositories
 └── shared/           # api, ui, lib, styles
 ```
 
-- **Hooks** (`useGithubUser`, `useRepositories`) — fetch via services Axios, com loading/erro/cancelamento na página do usuário
+- **TanStack Query** — cache de 5 min para perfil e repositórios; `queryKey` por `(username, page, sort)`
+- **Hooks** (`useGithubUser`, `useRepositories`) — consomem services Axios via `useQuery`
+- **Estado na URL** — `page` e `sort` em query params na rota do usuário
 - **Loader** (`repositoryLoader`) — pré-carrega dados na rota de detalhes do repositório
 - **Barrel exports** (`index.ts`) em cada feature — evitar deep imports
 - **Design tokens** — cores e tipografia centralizados em `src/shared/styles/`
 
-## Checklist de requisitos
+## Decisões técnicas
 
-| Requisito do desafio | Status |
-|----------------------|--------|
-| Buscar usuários do GitHub | Concluído |
-| Detalhes do usuário (avatar, bio, seguidores, etc.) | Concluído |
-| Listagem de repositórios com ordenação | Concluído |
-| Ordenação padrão: estrelas decrescentes | Concluído |
-| Página de detalhes do repositório com link externo para o GitHub | Concluído |
-| Rotas com React Router | Concluído |
-| API do GitHub via Axios | Concluído |
-| Layout responsivo | Concluído |
-| Arquitetura feature-based | Concluído |
-| Testes automatizados (hooks, utils, componentes) | Concluído |
+### Tailwind vs Bootstrap (edital)
+
+O edital cita Bootstrap como referência de **layout responsivo**, não como framework obrigatório. Tailwind v4 foi escolhido por:
+
+- Utility-first com design tokens semânticos (`bg-surface`, `border-border`, etc.)
+- Grid/flex responsivo equivalente ao Bootstrap (`sm:`, `lg:`, breakpoints)
+- Componentes UI próprios em `shared/ui` garantem consistência visual
+- Bundle menor e integração nativa com Vite
+
+### Search API + paginação
+
+A listagem usa `GET /search/repositories?q=user:{username}&sort=stars` para garantir repositórios ordenados por popularidade globalmente, inclusive para usuários com 100+ repos. Paginação de 10 itens por página com `total_count` da API.
+
+Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 req/min sem autenticação. TanStack Query mitiga re-fetch com cache de 5 minutos.
+
+### TanStack Query
+
+- Cache por `(user, username)`, `(repositories, username, page, sort)`
+- Revisitas à mesma página ou usuário não disparam nova requisição dentro do `staleTime`
+- `isFetching` desabilita controles de paginação durante troca de página
 
 ---
 

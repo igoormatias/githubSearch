@@ -1,46 +1,24 @@
-import { useEffect, useState } from "react";
-import { getUserRepositories } from "../services/repository-service";
-import type { Repository } from "../types/repository";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { searchUserRepositories } from "../services/repository-service";
+import type { RepositorySortOption } from "../types/repository";
 
-type UseRepositoriesState = {
-  repositories: Repository[];
-  isLoading: boolean;
-  error: unknown;
-};
-
-export const useRepositories = (username: string | undefined) => {
-  const [state, setState] = useState<UseRepositoriesState>({
-    repositories: [],
-    isLoading: Boolean(username),
-    error: null,
+export const useRepositories = (
+  username: string | undefined,
+  page: number,
+  sort: RepositorySortOption,
+) => {
+  const { data, isLoading, isFetching, error } = useQuery({
+    queryKey: ["repositories", username, page, sort],
+    queryFn: () => searchUserRepositories(username!, page, sort),
+    enabled: Boolean(username),
+    placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    if (!username) {
-      setState({ repositories: [], isLoading: false, error: null });
-      return;
-    }
-
-    let cancelled = false;
-
-    setState({ repositories: [], isLoading: true, error: null });
-
-    getUserRepositories(username)
-      .then((repositories) => {
-        if (!cancelled) {
-          setState({ repositories, isLoading: false, error: null });
-        }
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) {
-          setState({ repositories: [], isLoading: false, error });
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [username]);
-
-  return state;
+  return {
+    repositories: data?.items ?? [],
+    totalCount: data?.total_count ?? 0,
+    isLoading,
+    isFetching,
+    error,
+  };
 };
