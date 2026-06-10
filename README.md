@@ -91,11 +91,12 @@ npm run test
 npm run test:coverage
 ```
 
-O projeto possui **16 arquivos de teste** (61 testes), cobrindo:
+O projeto possui **16 arquivos de teste** (66 testes), cobrindo:
 
 - **Hooks:** `useGithubUser`, `useRepositories`, `useSearchForm`
 - **Services:** `searchUserRepositories`
-- **Utils:** `mapSortToSearchOrder`, `format`, `parsePageParam`, `parseSortParam`, `validate-github-username`
+- **Utils:** `mapSortToSearchOrder`, `format`, `parsePageParam`, `parseSortParam`
+- **Schemas:** `search.schema` (validação Zod do username)
 - **Páginas:** `UserPage`, `RepositoryPage`
 - **Componentes:** `SearchForm`, `UserProfile`, `RepositoryCard`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
 

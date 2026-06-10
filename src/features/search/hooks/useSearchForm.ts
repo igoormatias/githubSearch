@@ -1,31 +1,52 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "@/features/github-user";
+import { isNotFoundError } from "@/shared/api";
+import {
+  searchSchema,
+  type SearchFormValues,
+} from "../schemas/search.schema";
 
 export const useSearchForm = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const trimmedUsername = username.trim();
+  const form = useForm<SearchFormValues>({
+    resolver: zodResolver(searchSchema),
+    defaultValues: { username: "" },
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
 
-    if (!trimmedUsername) {
-      return;
+  const onSubmit = async ({ username }: SearchFormValues) => {
+    try {
+      await getUser(username);
+      navigate(`/user/${username}`);
+    } catch (error) {
+      if (isNotFoundError(error)) {
+        form.setError("username", {
+          type: "server",
+          message: "Usuário não encontrado.",
+        });
+      } else {
+        form.setError("username", {
+          type: "server",
+          message: "Não foi possível consultar o GitHub.",
+        });
+      }
+      form.setFocus("username");
     }
-
-    navigate(`/user/${trimmedUsername}`);
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setUsername(suggestion);
-    navigate(`/user/${suggestion}`);
+  const submitUsername = (username: string) => {
+    form.setValue("username", username, { shouldValidate: true });
+    void form.handleSubmit(onSubmit)();
   };
 
   return {
-    username,
-    setUsername,
-    handleSubmit,
-    handleSuggestionClick,
+    form,
+    onSubmit,
+    submitUsername,
+    isSubmitting: form.formState.isSubmitting,
   };
 };
