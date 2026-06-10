@@ -16,9 +16,18 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 
 ## Screenshots
 
-| Busca | Perfil (desktop) | Perfil (mobile) |
-|-------|------------------|-----------------|
-| ![Página de busca](./docs/screenshots/search-page.png) | ![Perfil desktop](./docs/screenshots/user-page-desktop.png) | ![Perfil mobile](./docs/screenshots/user-page-mobile.png) |
+### Busca
+![Página de busca — campo de username e sugestões](./docs/screenshots/search-page.png)
+
+### Perfil do usuário
+| Desktop | Mobile |
+|---------|--------|
+| ![Perfil desktop — sidebar + lista de repositórios](./docs/screenshots/user-page-desktop.png) | ![Perfil mobile — layout empilhado com botão Ver detalhes](./docs/screenshots/user-page-mobile.png) |
+
+### Detalhes do repositório
+| Desktop | Mobile |
+|---------|--------|
+| ![Repositório desktop — stats e metadados](./docs/screenshots/repository-page-desktop.png) | ![Repositório mobile — botão Abrir no GitHub em largura total](./docs/screenshots/repository-page-mobile.png) |
 
 ## Funcionalidades
 
