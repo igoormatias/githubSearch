@@ -53,10 +53,6 @@ describe("RepositoryPage", () => {
     expect(screen.getByText("Linguagem principal")).toBeVisible();
     expect(
       screen.getByRole("button", { name: "Abrir repositório no GitHub" }),
-    ).toBeVisible();
-    expect(screen.getByRole("link", { name: "Abrir no GitHub" })).toHaveAttribute(
-      "href",
-      "https://github.com/octocat/hello-world",
-    );
+    ).toHaveAttribute("href", "https://github.com/octocat/hello-world");
   });
 });

@@ -68,7 +68,7 @@ export const RepositoryCard = ({ repository }: RepositoryCardProps) => {
 
         <Link
           to={`/repository/${repository.owner.login}/${repository.name}`}
-          className="repo-details-btn d-lg-none"
+          className="btn btn-outline-secondary touch-target repo-details-btn d-lg-none"
         >
           Ver detalhes
         </Link>

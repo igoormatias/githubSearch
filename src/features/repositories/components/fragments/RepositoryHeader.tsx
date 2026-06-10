@@ -20,12 +20,10 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
         Voltar para Repositórios
       </Link>
 
-      <div className="d-flex flex-column flex-md-row align-items-md-start justify-content-md-between gap-3">
-        <div className="min-w-0 flex-grow-1">
+      <div className="repo-header-top">
+        <div className="repo-header-info">
           <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
-            <h1 className="h4 fw-bold mb-0 text-break">
-              {repository.full_name}
-            </h1>
+            <h1 className="h4 fw-bold mb-0">{repository.full_name}</h1>
             {!repository.private && (
               <span className="repo-public-badge">Público</span>
             )}
@@ -35,20 +33,17 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
           </p>
         </div>
 
-        <a
+        <AppButton
+          as="a"
           href={repository.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-shrink-0 text-decoration-none w-100 w-md-auto"
+          className="repo-header-github-btn d-inline-flex align-items-center gap-2"
+          aria-label="Abrir repositório no GitHub"
         >
-          <AppButton
-            className="w-100 w-md-auto"
-            aria-label="Abrir repositório no GitHub"
-          >
-            Abrir no GitHub
-            <FiExternalLink aria-hidden="true" />
-          </AppButton>
-        </a>
+          Abrir no GitHub
+          <FiExternalLink aria-hidden="true" />
+        </AppButton>
       </div>
     </Stack>
   );
