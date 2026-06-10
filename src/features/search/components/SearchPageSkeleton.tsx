@@ -1,17 +1,19 @@
+import { Stack } from "react-bootstrap";
 import { Skeleton } from "@/shared/ui";
 
 export const SearchPageSkeleton = () => {
   return (
-    <div
-      className="mx-auto flex w-full max-w-2xl flex-col gap-8"
+    <Stack
+      gap={4}
+      className="mx-auto w-100 max-w-2xl"
       aria-busy="true"
       aria-label="Carregando..."
     >
-      <div className="space-y-4 text-center">
-        <Skeleton className="mx-auto h-10 w-3/4" />
-        <Skeleton className="mx-auto h-6 w-full" />
-      </div>
-      <Skeleton className="h-12 w-full" />
-    </div>
+      <Stack gap={3} className="text-center">
+        <Skeleton className="mx-auto" style={{ height: "2.5rem", width: "75%" }} />
+        <Skeleton className="mx-auto" style={{ height: "1.5rem", width: "100%" }} />
+      </Stack>
+      <Skeleton style={{ height: "3rem", width: "100%" }} />
+    </Stack>
   );
 };

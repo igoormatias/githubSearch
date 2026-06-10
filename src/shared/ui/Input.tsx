@@ -1,12 +1,8 @@
-import type { InputHTMLAttributes } from "react";
+import { Form } from "react-bootstrap";
+import type { ComponentProps } from "react";
 
-type InputProps = InputHTMLAttributes<HTMLInputElement>;
+type InputProps = ComponentProps<typeof Form.Control>;
 
 export const Input = ({ className = "", ...props }: InputProps) => {
-  return (
-    <input
-      className={`w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-base text-foreground placeholder:text-foreground-muted transition-colors duration-200 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${className}`}
-      {...props}
-    />
-  );
+  return <Form.Control className={className} {...props} />;
 };

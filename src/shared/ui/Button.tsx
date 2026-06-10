@@ -1,35 +1,39 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { Button as BSButton } from "react-bootstrap";
+import type { ButtonProps as BSButtonProps } from "react-bootstrap";
 
 type ButtonVariant = "primary" | "secondary";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  children: ReactNode;
-  variant?: ButtonVariant;
-};
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  Pick<BSButtonProps, "size"> & {
+    children: ReactNode;
+    variant?: ButtonVariant;
+  };
 
-const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    "bg-primary text-background hover:opacity-90 focus-visible:ring-primary",
-  secondary:
-    "border border-border bg-transparent text-foreground hover:bg-surface-hover focus-visible:ring-primary",
+const variantMap: Record<ButtonVariant, string> = {
+  primary: "primary",
+  secondary: "outline-secondary",
 };
 
 export const Button = ({
   children,
   variant = "primary",
+  size,
   className = "",
   type = "button",
   disabled = false,
   ...props
 }: ButtonProps) => {
   return (
-    <button
+    <BSButton
       type={type}
+      variant={variantMap[variant]}
+      size={size}
       disabled={disabled}
-      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${className}`}
+      className={`touch-target ${className}`}
       {...props}
     >
       {children}
-    </button>
+    </BSButton>
   );
 };

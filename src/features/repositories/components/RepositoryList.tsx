@@ -1,3 +1,4 @@
+import { Col, Row, Stack } from "react-bootstrap";
 import type { Repository, RepositorySortOption } from "../types/repository";
 import { REPOSITORIES_PER_PAGE } from "../types/repository";
 import { RepositoryCard } from "./RepositoryCard";
@@ -37,29 +38,35 @@ export const RepositoryList = ({
 
   return (
     <section
-      className="w-full min-w-0 space-y-6"
+      className="w-100 min-w-0"
       aria-busy={isFetching}
       aria-label="Lista de repositórios"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-xl font-semibold text-foreground">
-          Repositórios ({totalCount})
-        </h2>
-        <RepositorySortSelect value={sort} onChange={onSortChange} />
-      </div>
+      <Stack gap={3}>
+        <Row className="align-items-center g-2">
+          <Col xs={12} md={6} lg="auto">
+            <h2 className="h5 fw-semibold mb-0">
+              Repositórios ({totalCount})
+            </h2>
+          </Col>
+          <Col xs={12} md={6} lg="auto" className="ms-lg-auto">
+            <RepositorySortSelect value={sort} onChange={onSortChange} />
+          </Col>
+        </Row>
 
-      <div className="grid w-full gap-4">
-        {repositories.map((repository) => (
-          <RepositoryCard key={repository.id} repository={repository} />
-        ))}
-      </div>
+        <Stack className="repo-list gap-3 gap-lg-4">
+          {repositories.map((repository) => (
+            <RepositoryCard key={repository.id} repository={repository} />
+          ))}
+        </Stack>
 
-      <RepositoryPagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-        isFetching={isFetching}
-      />
+        <RepositoryPagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          isFetching={isFetching}
+        />
+      </Stack>
     </section>
   );
 };

@@ -1,6 +1,6 @@
 import type { FormEvent } from "react";
 import { FiSearch } from "react-icons/fi";
-import { Button, Input } from "@/shared/ui";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 
 type SearchFormProps = {
   username: string;
@@ -16,35 +16,37 @@ export const SearchForm = ({
   disabled = false,
 }: SearchFormProps) => {
   return (
-    <form
-      onSubmit={onSubmit}
-      className="flex w-full flex-col gap-3 sm:flex-row sm:items-center"
-    >
-      <div className="relative flex-1">
-        <FiSearch
-          className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted"
-          aria-hidden="true"
-        />
-        <Input
-          id="username"
-          name="username"
-          type="search"
-          value={username}
-          onChange={(event) => onUsernameChange(event.target.value)}
-          placeholder="Digite o username (ex.: torvalds)"
-          className="pl-11"
-          disabled={disabled}
-          aria-label="Username do GitHub"
-        />
-      </div>
-      <Button
-        type="submit"
-        disabled={disabled || !username.trim()}
-        aria-label="Buscar usuário no GitHub"
-        className="w-full sm:w-auto"
-      >
-        Buscar
-      </Button>
-    </form>
+    <Form onSubmit={onSubmit} className="w-100">
+      <Row className="g-2 align-items-stretch">
+        <Col xs={12} sm>
+          <InputGroup className="search-input-group h-100">
+            <InputGroup.Text>
+              <FiSearch aria-hidden="true" />
+            </InputGroup.Text>
+            <Form.Control
+              id="username"
+              name="username"
+              type="search"
+              value={username}
+              onChange={(event) => onUsernameChange(event.target.value)}
+              placeholder="Digite o username (ex.: torvalds)"
+              disabled={disabled}
+              aria-label="Username do GitHub"
+            />
+          </InputGroup>
+        </Col>
+        <Col xs={12} sm="auto">
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={disabled || !username.trim()}
+            aria-label="Buscar usuário no GitHub"
+            className="search-submit-btn w-100 fw-semibold"
+          >
+            Buscar
+          </Button>
+        </Col>
+      </Row>
+    </Form>
   );
 };

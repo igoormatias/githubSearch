@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Card as BSCard } from "react-bootstrap";
 
 type CardProps = {
   children: ReactNode;
@@ -7,10 +8,6 @@ type CardProps = {
 
 export const Card = ({ children, className = "" }: CardProps) => {
   return (
-    <div
-      className={`rounded-xl border border-border bg-surface transition-colors duration-200 ${className}`}
-    >
-      {children}
-    </div>
+    <BSCard className={`border card-interactive ${className}`}>{children}</BSCard>
   );
 };

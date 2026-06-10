@@ -1,6 +1,6 @@
+import { Card } from "react-bootstrap";
 import { formatDate } from "@/shared/lib";
 import type { RepositoryDetail } from "../../types/repository";
-import { Card } from "@/shared/ui";
 
 type RepositorySpecsProps = {
   repository: RepositoryDetail;
@@ -18,19 +18,22 @@ export const RepositorySpecs = ({ repository }: RepositorySpecsProps) => {
   ];
 
   return (
-    <Card className="space-y-4 p-6">
-      <h2 className="text-lg font-semibold text-foreground">Repositório</h2>
-      <dl className="space-y-4">
-        {specs.map((spec) => (
-          <div
-            key={spec.label}
-            className="flex flex-col gap-1 border-b border-border pb-4 last:border-b-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <dt className="text-sm text-foreground-muted">{spec.label}</dt>
-            <dd className="text-sm font-medium text-foreground">{spec.value}</dd>
-          </div>
-        ))}
-      </dl>
+    <Card className="border card-interactive">
+      <Card.Body className="p-4">
+        <h2 className="h5 fw-semibold mb-4">Repositório</h2>
+        <dl className="mb-0">
+          {specs.map((spec, index) => (
+            <div
+              key={spec.label}
+              className={`d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-1 py-3 ${index < specs.length - 1 ? "border-bottom" : ""}`}
+              style={{ borderColor: "var(--border-color)" }}
+            >
+              <dt className="small text-secondary mb-0">{spec.label}</dt>
+              <dd className="small fw-semibold mb-0">{spec.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </Card.Body>
     </Card>
   );
 };

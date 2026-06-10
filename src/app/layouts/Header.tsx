@@ -1,20 +1,27 @@
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
-import { Container } from "./Container";
+import { Container, Navbar } from "react-bootstrap";
 
 export const Header = () => {
   return (
-    <header className="border-b border-border bg-surface">
-      <Container className="py-4">
-        <Link
+    <Navbar
+      variant="dark"
+      expand="lg"
+      sticky="top"
+      className="border-bottom py-0"
+      style={{ backgroundColor: "var(--bg-primary)" }}
+    >
+      <Container fluid="lg" className="py-2 py-lg-3">
+        <Navbar.Brand
+          as={Link}
           to="/"
-          className="inline-flex cursor-pointer items-center gap-3 text-foreground transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="d-inline-flex align-items-center gap-2 gap-sm-3 text-decoration-none link-body-emphasis mb-0"
           aria-label="Ir para página inicial"
         >
-          <FaGithub className="h-6 w-6 text-primary" aria-hidden="true" />
-          <span className="text-lg font-semibold">GitHub User Explorer</span>
-        </Link>
+          <FaGithub className="text-primary" size={24} aria-hidden="true" />
+          <span className="fs-5 fw-semibold">GitHub User Explorer</span>
+        </Navbar.Brand>
       </Container>
-    </header>
+    </Navbar>
   );
 };

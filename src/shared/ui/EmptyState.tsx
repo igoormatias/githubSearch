@@ -1,4 +1,5 @@
 import { FiInbox } from "react-icons/fi";
+import { Card } from "react-bootstrap";
 
 type EmptyStateProps = {
   title: string;
@@ -7,12 +8,14 @@ type EmptyStateProps = {
 
 export const EmptyState = ({ title, message }: EmptyStateProps) => {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-surface p-8 text-center">
-      <FiInbox className="h-10 w-10 text-foreground-muted" aria-hidden="true" />
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-        <p className="text-sm text-foreground-muted">{message}</p>
-      </div>
-    </div>
+    <Card className="border text-center">
+      <Card.Body className="p-4 p-md-5 d-flex flex-column align-items-center gap-3">
+        <FiInbox className="text-secondary" size={40} aria-hidden="true" />
+        <div>
+          <h2 className="h5 fw-semibold mb-2">{title}</h2>
+          <p className="small text-secondary mb-0">{message}</p>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };

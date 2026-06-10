@@ -1,18 +1,19 @@
+import { Stack } from "react-bootstrap";
 import { RepositoryCardSkeleton } from "./RepositoryCardSkeleton";
 import { Skeleton } from "./Skeleton";
 
 export const RepositoryListSkeleton = () => {
   return (
-    <div className="space-y-6" aria-busy="true" aria-label="Carregando...">
-      <Skeleton className="h-8 w-48" />
-      <div className="grid w-full gap-4">
+    <Stack gap={4} aria-busy="true" aria-label="Carregando...">
+      <Skeleton style={{ height: "2rem", width: "12rem" }} />
+      <Stack gap={3}>
         <RepositoryCardSkeleton />
         <RepositoryCardSkeleton />
         <RepositoryCardSkeleton />
         <RepositoryCardSkeleton />
         <RepositoryCardSkeleton />
         <RepositoryCardSkeleton />
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 };

@@ -1,3 +1,4 @@
+import { Stack } from "react-bootstrap";
 import { Container } from "@/app/layouts";
 import { ErrorState } from "@/shared/ui";
 import { SearchForm } from "../components/SearchForm";
@@ -22,33 +23,41 @@ export const SearchPage = ({
 
   if (view === "loading") {
     return (
-      <Container className="flex min-h-[calc(100vh-73px)] items-center justify-center py-12">
-        <SearchPageSkeleton />
-      </Container>
+      <div className="hero-centered">
+        <Container className="py-0">
+          <div className="hero-content mx-auto">
+            <SearchPageSkeleton />
+          </div>
+        </Container>
+      </div>
     );
   }
 
   if (view === "error") {
     return (
-      <Container className="flex min-h-[calc(100vh-73px)] items-center justify-center py-12">
-        <div className="w-full max-w-lg">
-          <ErrorState message={errorMessage} />
-        </div>
-      </Container>
+      <div className="hero-centered">
+        <Container className="py-0">
+          <div className="hero-content mx-auto max-w-lg">
+            <ErrorState message={errorMessage} />
+          </div>
+        </Container>
+      </div>
     );
   }
 
   return (
-    <Container className="flex min-h-[calc(100vh-73px)] items-center justify-center py-12">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-8">
-        <SearchHero />
-        <SearchForm
-          username={username}
-          onUsernameChange={setUsername}
-          onSubmit={handleSubmit}
-        />
-        <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
-      </div>
-    </Container>
+    <div className="hero-centered">
+      <Container className="py-0">
+        <Stack gap={3} className="hero-content mx-auto">
+          <SearchHero />
+          <SearchForm
+            username={username}
+            onUsernameChange={setUsername}
+            onSubmit={handleSubmit}
+          />
+          <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
+        </Stack>
+      </Container>
+    </div>
   );
 };

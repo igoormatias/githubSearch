@@ -1,21 +1,35 @@
+import { Col, Row } from "react-bootstrap";
 import { Skeleton } from "./Skeleton";
 
 export const UserProfileSkeleton = () => {
   return (
     <aside
-      className="space-y-6 text-center lg:text-left"
+      className="user-sidebar user-sidebar-skeleton text-center text-lg-start"
       aria-busy="true"
       aria-label="Carregando..."
     >
-      <Skeleton className="mx-auto h-24 w-24 sm:h-28 sm:w-28 lg:mx-0 lg:h-64 lg:w-full" />
-      <Skeleton className="mx-auto h-8 w-3/4 lg:mx-0" />
-      <Skeleton className="mx-auto h-4 w-1/2 lg:mx-0" />
-      <Skeleton className="h-16 w-full" />
-      <div className="grid grid-cols-3 gap-2 px-1">
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full" />
-      </div>
+      <Skeleton className="sk-avatar mb-3 mx-auto mx-lg-0" />
+
+      <Skeleton
+        className="sk-name mb-3 mx-auto mx-lg-0"
+        style={{ height: "1.25rem", width: "8rem" }}
+      />
+
+      <Skeleton
+        className="sk-bio mb-3"
+        style={{ height: "2.5rem", width: "100%" }}
+      />
+
+      <Row className="user-profile-stats g-2">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Col xs={4} key={index} className="min-w-0">
+            <Skeleton
+              className="sk-stat"
+              style={{ height: "2.5rem", width: "100%" }}
+            />
+          </Col>
+        ))}
+      </Row>
     </aside>
   );
 };

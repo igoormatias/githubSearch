@@ -27,7 +27,7 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 - **Listagem de repositórios** — cards com linguagem, estrelas, forks e data de atualização; paginação de 10 por página
 - **Ordenação por estrelas** — mais estrelas (padrão) ou menos estrelas via GitHub Search API
 - **Detalhes do repositório** — metadados completos e botão "Abrir no GitHub"
-- **Estados de UI** — skeletons com shimmer, mensagens de erro e usuário não encontrado (404)
+- **Estados de UI** — skeletons com Placeholder glow, mensagens de erro e usuário não encontrado (404)
 - **Layout responsivo** — mobile-first; inputs com `font-size` ≥ 16px para evitar zoom automático no iOS Safari
 - **Cache de dados** — TanStack Query evita re-fetch desnecessário ao navegar entre páginas
 
@@ -35,7 +35,7 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 
 - React 19 + TypeScript
 - Vite
-- Tailwind CSS v4
+- Bootstrap 5 + React-Bootstrap
 - React Router DOM
 - TanStack Query v5
 - Axios
@@ -137,18 +137,18 @@ src/
 - **Estado na URL** — `useUserPageParams` sincroniza `page` e `sort` na rota do usuário; query params são resetados ao trocar de username
 - **Loader** (`repositoryLoader`) — pré-carrega dados na rota de detalhes do repositório
 - **Barrel exports** (`index.ts`) em cada feature — evitar deep imports
-- **Design tokens** — cores e tipografia centralizados em `src/shared/styles/`
+- **Design tokens** — tema escuro via `data-bs-theme="dark"` e variáveis CSS em `src/shared/styles/index.css`
+- **Componentes UI** — wrappers finos em `shared/ui` sobre React-Bootstrap mantendo API estável
 
 ## Decisões técnicas
 
-### Tailwind vs Bootstrap (edital)
+### Bootstrap + tema escuro
 
-O edital cita Bootstrap como referência de **layout responsivo**, não como framework obrigatório. Tailwind v4 foi escolhido por:
+O edital cita Bootstrap como referência de **layout responsivo**. A UI usa React-Bootstrap com:
 
-- Utility-first com design tokens semânticos (`bg-surface`, `border-border`, etc.)
-- Grid/flex responsivo equivalente ao Bootstrap (`sm:`, `lg:`, breakpoints)
-- Componentes UI próprios em `shared/ui` garantem consistência visual
-- Bundle menor e integração nativa com Vite
+- Grid responsivo (`Row`/`Col`), `Navbar`, `Form`, `Card`, `Placeholder`
+- Tema escuro via `data-bs-theme="dark"` e override de variáveis (`--bs-body-bg`, `--bs-primary`, etc.)
+- Wrappers em `shared/ui` para não acoplar features ao Bootstrap diretamente
 
 ### Search API + paginação
 

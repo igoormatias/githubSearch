@@ -1,7 +1,7 @@
 import { FiAlertCircle, FiEye, FiGitBranch, FiStar } from "react-icons/fi";
+import { Card, Col, Row } from "react-bootstrap";
 import type { RepositoryDetail } from "../../types/repository";
 import { formatNumber } from "@/shared/lib";
-import { Card } from "@/shared/ui";
 
 type RepositoryStatsProps = {
   repository: RepositoryDetail;
@@ -38,25 +38,24 @@ export const RepositoryStats = ({ repository }: RepositoryStatsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <Row className="g-2">
       {stats.map((stat) => {
         const Icon = stat.icon;
 
         return (
-          <Card
-            key={stat.label}
-            className="flex h-full min-h-[88px] flex-col justify-between p-4 hover:bg-surface-hover sm:p-5"
-          >
-            <div className="flex items-center gap-2 text-foreground-muted">
-              <Icon className="shrink-0" aria-hidden="true" />
-              <span className="text-sm font-medium">{stat.label}</span>
-            </div>
-            <p className="text-xl font-semibold text-foreground sm:text-2xl">
-              {stat.value}
-            </p>
-          </Card>
+          <Col key={stat.label} xs={6} lg={3} className="d-flex">
+            <Card className="border flex-fill card-interactive">
+              <Card.Body className="stat-card-body d-flex flex-column justify-content-between p-3">
+                <div className="d-flex align-items-center gap-2 text-secondary small fw-medium mb-1">
+                  <Icon className="flex-shrink-0" aria-hidden="true" />
+                  <span>{stat.label}</span>
+                </div>
+                <p className="fs-4 fw-bold mb-0">{stat.value}</p>
+              </Card.Body>
+            </Card>
+          </Col>
         );
       })}
-    </div>
+    </Row>
   );
 };

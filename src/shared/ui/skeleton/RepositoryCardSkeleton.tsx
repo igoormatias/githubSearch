@@ -1,18 +1,19 @@
+import { Card } from "react-bootstrap";
 import { Skeleton } from "./Skeleton";
 
 export const RepositoryCardSkeleton = () => {
   return (
-    <div className="rounded-xl border border-border bg-surface p-6">
-      <div className="space-y-4">
-        <Skeleton className="h-5 w-2/5" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-4/5" />
-        <div className="flex gap-4 pt-2">
-          <Skeleton className="h-4 w-16" />
-          <Skeleton className="h-4 w-12" />
-          <Skeleton className="h-4 w-12" />
+    <Card className="border">
+      <Card.Body>
+        <Skeleton className="mb-3" style={{ height: "1.25rem", width: "40%" }} />
+        <Skeleton className="mb-2" style={{ height: "1rem", width: "100%" }} />
+        <Skeleton className="mb-3" style={{ height: "1rem", width: "80%" }} />
+        <div className="d-flex gap-3 pt-2">
+          <Skeleton style={{ height: "1rem", width: "4rem" }} />
+          <Skeleton style={{ height: "1rem", width: "3rem" }} />
+          <Skeleton style={{ height: "1rem", width: "3rem" }} />
         </div>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   );
 };

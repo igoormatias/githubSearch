@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
 import { UserProfile } from "../components/UserProfile";
 import { UserNotFound } from "../components/UserNotFound";
 import { useGithubUser } from "../hooks/useGithubUser";
@@ -37,14 +38,18 @@ export const UserPage = () => {
   if (isInitialLoading) {
     return (
       <Container>
-        <div
-          className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,280px)_1fr]"
+        <Row
+          className="g-4"
           aria-busy="true"
           aria-label="Carregando..."
         >
-          <UserProfileSkeleton />
-          <RepositoryListSkeleton />
-        </div>
+          <Col lg={4} xl={3}>
+            <UserProfileSkeleton />
+          </Col>
+          <Col lg={8} xl={9}>
+            <RepositoryListSkeleton />
+          </Col>
+        </Row>
       </Container>
     );
   }
@@ -81,9 +86,11 @@ export const UserPage = () => {
 
   return (
     <Container>
-      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,280px)_1fr]">
-        <UserProfile user={user} />
-        <div className="min-w-0">
+      <Row className="g-4">
+        <Col lg={4} xl={3}>
+          <UserProfile user={user} />
+        </Col>
+        <Col lg={8} xl={9} className="min-w-0">
           {repositoriesError ? (
             <ErrorState
               title="Erro ao carregar repositórios"
@@ -100,8 +107,8 @@ export const UserPage = () => {
               isFetching={isRepositoriesFetching}
             />
           )}
-        </div>
-      </div>
+        </Col>
+      </Row>
     </Container>
   );
 };

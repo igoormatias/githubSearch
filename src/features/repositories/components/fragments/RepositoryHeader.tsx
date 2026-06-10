@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { FiArrowLeft, FiExternalLink } from "react-icons/fi";
+import { Stack } from "react-bootstrap";
 import type { RepositoryDetail } from "../../types/repository";
-import { Button } from "@/shared/ui";
+import { Button as AppButton } from "@/shared/ui";
 
 type RepositoryHeaderProps = {
   repository: RepositoryDetail;
@@ -9,29 +10,27 @@ type RepositoryHeaderProps = {
 
 export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
   return (
-    <div className="space-y-4">
+    <Stack gap={2}>
       <Link
         to={`/user/${repository.owner.login}`}
-        className="inline-flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-foreground-muted transition-colors duration-200 hover:bg-surface-hover hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="btn btn-link text-secondary text-decoration-none p-0 d-inline-flex align-items-center gap-2 small"
         aria-label="Voltar para repositórios"
       >
         <FiArrowLeft aria-hidden="true" />
         Voltar para Repositórios
       </Link>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0 space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold wrap-anywhere text-foreground sm:text-3xl">
+      <div className="d-flex flex-column flex-md-row align-items-md-start justify-content-md-between gap-3">
+        <div className="min-w-0 flex-grow-1">
+          <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+            <h1 className="h4 fw-bold mb-0 text-break">
               {repository.full_name}
             </h1>
             {!repository.private && (
-              <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-xs text-foreground-muted">
-                Public
-              </span>
+              <span className="repo-public-badge">Public</span>
             )}
           </div>
-          <p className="max-w-3xl text-sm leading-relaxed text-foreground-muted sm:text-base">
+          <p className="text-secondary mb-0 small">
             {repository.description?.trim() || "Sem descrição disponível."}
           </p>
         </div>
@@ -40,14 +39,17 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
           href={repository.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="flex-shrink-0 text-decoration-none w-100 w-md-auto"
         >
-          <Button aria-label="Abrir repositório no GitHub">
+          <AppButton
+            className="w-100 w-md-auto"
+            aria-label="Abrir repositório no GitHub"
+          >
             Abrir no GitHub
             <FiExternalLink aria-hidden="true" />
-          </Button>
+          </AppButton>
         </a>
       </div>
-    </div>
+    </Stack>
   );
 };

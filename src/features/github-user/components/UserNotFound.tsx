@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FiUserX } from "react-icons/fi";
+import { Card } from "react-bootstrap";
 import { Button } from "@/shared/ui";
 
 type UserNotFoundProps = {
@@ -8,19 +9,19 @@ type UserNotFoundProps = {
 
 export const UserNotFound = ({ username }: UserNotFoundProps) => {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-surface p-8 text-center">
-      <FiUserX className="h-10 w-10 text-foreground-muted" aria-hidden="true" />
-      <div className="space-y-2">
-        <h1 className="text-xl font-semibold text-foreground">
-          Usuário não encontrado
-        </h1>
-        <p className="text-sm text-foreground-muted">
-          O usuário &quot;{username}&quot; não existe no GitHub.
-        </p>
-      </div>
-      <Link to="/">
-        <Button aria-label="Voltar para busca">Voltar</Button>
-      </Link>
-    </div>
+    <Card className="border text-center">
+      <Card.Body className="p-4 p-md-5 d-flex flex-column align-items-center gap-3">
+        <FiUserX className="text-secondary" size={40} aria-hidden="true" />
+        <div>
+          <h1 className="h5 fw-semibold mb-2">Usuário não encontrado</h1>
+          <p className="small text-secondary mb-0">
+            O usuário &quot;{username}&quot; não existe no GitHub.
+          </p>
+        </div>
+        <Link to="/">
+          <Button aria-label="Voltar para busca">Voltar</Button>
+        </Link>
+      </Card.Body>
+    </Card>
   );
 };

@@ -3,9 +3,9 @@ import { Header } from "./Header";
 
 export const AppLayout = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="app-shell min-vh-100 d-flex flex-column">
       <Header />
-      <main className="flex-1">
+      <main className="flex-grow-1">
         <Outlet />
       </main>
     </div>

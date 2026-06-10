@@ -14,13 +14,14 @@
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
     "axios": "^1.9.0",
+    "bootstrap": "^5.3.8",
     "react": "^19.1.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.8",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -35,7 +36,6 @@
     "globals": "^16.2.0",
     "jsdom": "^28.1.0",
     "prettier": "^3.5.3",
-    "tailwindcss": "^4.1.8",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",

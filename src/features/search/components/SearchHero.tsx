@@ -1,13 +1,13 @@
+import { Stack } from "react-bootstrap";
+
 export const SearchHero = () => {
   return (
-    <div className="space-y-4 text-center">
-      <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-        Buscar Usuário GitHub
-      </h1>
-      <p className="mx-auto max-w-2xl text-base text-foreground-muted sm:text-lg">
+    <Stack gap={2} className="text-center">
+      <h1 className="display-6 fw-bold mb-0">Buscar Usuário GitHub</h1>
+      <p className="text-secondary mx-auto mb-0">
         Pesquise qualquer usuário do GitHub para explorar o perfil e os
         repositórios mais populares.
       </p>
-    </div>
+    </Stack>
   );
 };
