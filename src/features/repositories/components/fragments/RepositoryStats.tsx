@@ -16,7 +16,7 @@ type StatItem = {
 export const RepositoryStats = ({ repository }: RepositoryStatsProps) => {
   const stats: StatItem[] = [
     {
-      label: "Stars",
+      label: "Estrelas",
       value: formatNumber(repository.stargazers_count),
       icon: FiStar,
     },
@@ -26,12 +26,12 @@ export const RepositoryStats = ({ repository }: RepositoryStatsProps) => {
       icon: FiGitBranch,
     },
     {
-      label: "Issues",
+      label: "Issues abertas",
       value: formatNumber(repository.open_issues_count),
       icon: FiAlertCircle,
     },
     {
-      label: "Watchers",
+      label: "Observadores",
       value: formatNumber(repository.watchers_count),
       icon: FiEye,
     },

@@ -27,7 +27,7 @@ export const RepositoryHeader = ({ repository }: RepositoryHeaderProps) => {
               {repository.full_name}
             </h1>
             {!repository.private && (
-              <span className="repo-public-badge">Public</span>
+              <span className="repo-public-badge">Público</span>
             )}
           </div>
           <p className="text-secondary mb-0 small">

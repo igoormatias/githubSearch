@@ -9,10 +9,10 @@ type RepositorySpecsProps = {
 export const RepositorySpecs = ({ repository }: RepositorySpecsProps) => {
   const specs = [
     {
-      label: "Primary Language",
+      label: "Linguagem principal",
       value: repository.language ?? "Não informado",
     },
-    { label: "Default Branch", value: repository.default_branch },
+    { label: "Branch padrão", value: repository.default_branch },
     { label: "Criado em", value: formatDate(repository.created_at) },
     { label: "Atualizado em", value: formatDate(repository.updated_at) },
   ];

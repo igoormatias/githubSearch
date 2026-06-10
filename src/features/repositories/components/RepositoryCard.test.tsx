@@ -28,8 +28,8 @@ describe("RepositoryCard", () => {
     expect(screen.getByText("hello-world")).toBeVisible();
     expect(screen.getByText("My first repository")).toBeVisible();
     expect(screen.getByText("TypeScript")).toBeVisible();
-    expect(screen.getByText("1.500 Stars")).toBeVisible();
-    expect(screen.getByText("200 Forks")).toBeVisible();
+    expect(screen.getByText("1.500 estrelas")).toBeVisible();
+    expect(screen.getByText("200 forks")).toBeVisible();
     expect(screen.getByText(/Atualizado em/)).toBeVisible();
   });
 

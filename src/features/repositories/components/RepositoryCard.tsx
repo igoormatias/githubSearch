@@ -31,7 +31,7 @@ export const RepositoryCard = ({ repository }: RepositoryCardProps) => {
             {repository.name}
           </Link>
           {!repository.private && (
-            <span className="repo-public-badge">Public</span>
+            <span className="repo-public-badge">Público</span>
           )}
         </div>
 
@@ -54,11 +54,11 @@ export const RepositoryCard = ({ repository }: RepositoryCardProps) => {
             )}
             <span className="repo-meta-item d-inline-flex align-items-center gap-1">
               <FiStar aria-hidden="true" />
-              {formatNumber(repository.stargazers_count)} Stars
+              {formatNumber(repository.stargazers_count)} estrelas
             </span>
             <span className="repo-meta-item d-inline-flex align-items-center gap-1">
               <FiGitBranch aria-hidden="true" />
-              {formatNumber(repository.forks_count)} Forks
+              {formatNumber(repository.forks_count)} forks
             </span>
           </div>
           <span className="repo-meta-item flex-shrink-0">

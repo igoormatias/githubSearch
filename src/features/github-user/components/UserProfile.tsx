@@ -45,14 +45,16 @@ export const UserProfile = ({ user }: UserProfileProps) => {
             <span>{user.location}</span>
           </li>
         )}
-        {user.email && (
-          <li className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 text-secondary small py-1">
-            <FiMail className="flex-shrink-0" aria-hidden="true" />
+        <li className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 text-secondary small py-1">
+          <FiMail className="flex-shrink-0" aria-hidden="true" />
+          {user.email ? (
             <a href={`mailto:${user.email}`} className="text-primary">
               {user.email}
             </a>
-          </li>
-        )}
+          ) : (
+            <span>Email não público</span>
+          )}
+        </li>
         {website && (
           <li className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 text-secondary small py-1">
             <FiGlobe className="flex-shrink-0" aria-hidden="true" />

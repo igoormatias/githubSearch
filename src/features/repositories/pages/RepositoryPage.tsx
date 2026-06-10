@@ -1,14 +1,14 @@
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { useNavigation } from "react-router-dom";
 import { Stack } from "react-bootstrap";
-import type { RepositoryDetail } from "../types/repository";
 import { RepositoryHeader } from "../components/fragments/RepositoryHeader";
 import { RepositorySpecs } from "../components/fragments/RepositorySpecs";
 import { RepositoryStats } from "../components/fragments/RepositoryStats";
+import { useRepositoryLoaderData } from "../hooks/useRepositoryLoaderData";
 import { Container } from "@/app/layouts";
 import { Card, RepositoryPageSkeleton } from "@/shared/ui";
 
 export const RepositoryPage = () => {
-  const repository = useLoaderData() as RepositoryDetail;
+  const repository = useRepositoryLoaderData();
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
 

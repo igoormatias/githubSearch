@@ -1,9 +1,13 @@
 import axios, { isAxiosError } from "axios";
+import { appEnv } from "@/shared/config/env";
 
 export const apiClient = axios.create({
-  baseURL: "https://api.github.com",
+  baseURL: appEnv.apiUrl,
   headers: {
     Accept: "application/vnd.github+json",
+    ...(appEnv.githubToken
+      ? { Authorization: `Bearer ${appEnv.githubToken}` }
+      : {}),
   },
 });
 

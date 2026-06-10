@@ -1,8 +1,10 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import { getRepository } from "@/features/repositories";
+import { getRepository, type RepositoryDetail } from "@/features/repositories";
 import { isNotFoundError } from "@/shared/api";
 
-export const repositoryLoader = async ({ params }: LoaderFunctionArgs) => {
+export const repositoryLoader = async ({
+  params,
+}: LoaderFunctionArgs): Promise<RepositoryDetail> => {
   const owner = params.owner;
   const repo = params.repo;
 
