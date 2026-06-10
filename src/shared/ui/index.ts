@@ -8,4 +8,5 @@ export {
   UserProfileSkeleton,
   RepositoryCardSkeleton,
   RepositoryListSkeleton,
+  RepositoryPageSkeleton,
 } from "./skeleton";

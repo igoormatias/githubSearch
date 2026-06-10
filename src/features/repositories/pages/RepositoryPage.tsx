@@ -1,10 +1,11 @@
 import { useLoaderData, useNavigation } from "react-router-dom";
+import { Stack } from "react-bootstrap";
 import type { RepositoryDetail } from "../types/repository";
 import { RepositoryHeader } from "../components/fragments/RepositoryHeader";
 import { RepositorySpecs } from "../components/fragments/RepositorySpecs";
 import { RepositoryStats } from "../components/fragments/RepositoryStats";
 import { Container } from "@/app/layouts";
-import { Card, Skeleton } from "@/shared/ui";
+import { Card, RepositoryPageSkeleton } from "@/shared/ui";
 
 export const RepositoryPage = () => {
   const repository = useLoaderData() as RepositoryDetail;
@@ -14,32 +15,20 @@ export const RepositoryPage = () => {
   if (isLoading) {
     return (
       <Container>
-        <div
-          className="mx-auto w-full min-w-0 max-w-3xl space-y-6"
-          aria-busy="true"
-          aria-label="Carregando..."
-        >
-          <Skeleton className="h-8 w-40" />
-          <Skeleton className="h-10 w-full" />
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-24 w-full" />
-          </div>
-          <Skeleton className="h-48 w-full" />
-        </div>
+        <RepositoryPageSkeleton />
       </Container>
     );
   }
 
   return (
     <Container>
-      <div className="mx-auto w-full min-w-0 max-w-3xl space-y-8">
-        <Card className="space-y-8 p-6">
-          <RepositoryHeader repository={repository} />
-          <RepositoryStats repository={repository} />
-          <RepositorySpecs repository={repository} />
+      <div className="mx-auto w-100 min-w-0 max-w-detail">
+        <Card className="p-3 p-md-4 p-lg-4">
+          <Stack gap={3}>
+            <RepositoryHeader repository={repository} />
+            <RepositoryStats repository={repository} />
+            <RepositorySpecs repository={repository} />
+          </Stack>
         </Card>
       </div>
     </Container>

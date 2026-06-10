@@ -459,6 +459,68 @@ body {
   display: block;
 }
 
+.sk-name {
+  height: 1.25rem;
+  width: 8rem;
+}
+
+.sk-bio {
+  height: 2.5rem;
+}
+
+.sk-stat {
+  height: 2.5rem;
+}
+
+/* Repository page skeleton */
+.sk-repo-title {
+  height: 2rem;
+  width: 10rem;
+}
+
+.sk-repo-header {
+  height: 2.5rem;
+}
+
+.sk-stat-card {
+  height: 5.5rem;
+}
+
+.sk-repo-body {
+  height: 10rem;
+}
+
+/* Repository list skeleton */
+.sk-list-header {
+  height: 2rem;
+  width: 12rem;
+}
+
+/* Repository card skeleton */
+.sk-repo-card-title {
+  height: 1.25rem;
+  width: 40%;
+}
+
+.sk-repo-card-line {
+  height: 1rem;
+}
+
+.sk-repo-card-line-short {
+  height: 1rem;
+  width: 80%;
+}
+
+.sk-repo-card-meta {
+  height: 1rem;
+  width: 4rem;
+}
+
+.sk-repo-card-meta-sm {
+  height: 1rem;
+  width: 3rem;
+}
+
 @media (min-width: 992px) {
   .sk-avatar {
     width: 100%;

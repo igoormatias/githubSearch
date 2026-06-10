@@ -5,14 +5,11 @@ import { Skeleton } from "./Skeleton";
 export const RepositoryListSkeleton = () => {
   return (
     <Stack gap={4} aria-busy="true" aria-label="Carregando...">
-      <Skeleton style={{ height: "2rem", width: "12rem" }} />
+      <Skeleton className="sk-list-header" />
       <Stack gap={3}>
-        <RepositoryCardSkeleton />
-        <RepositoryCardSkeleton />
-        <RepositoryCardSkeleton />
-        <RepositoryCardSkeleton />
-        <RepositoryCardSkeleton />
-        <RepositoryCardSkeleton />
+        {Array.from({ length: 6 }).map((_, index) => (
+          <RepositoryCardSkeleton key={index} />
+        ))}
       </Stack>
     </Stack>
   );

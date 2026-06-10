@@ -1,10 +1,10 @@
+import type { ReactNode } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
   FiChevronsLeft,
   FiChevronsRight,
 } from "react-icons/fi";
-import { Button } from "@/shared/ui";
 
 type RepositoryPaginationProps = {
   currentPage: number;
@@ -12,6 +12,32 @@ type RepositoryPaginationProps = {
   onPageChange: (page: number) => void;
   isFetching?: boolean;
 };
+
+type PaginationButtonProps = {
+  disabled: boolean;
+  label: string;
+  onClick: () => void;
+  children: ReactNode;
+};
+
+const PaginationButton = ({
+  disabled,
+  label,
+  onClick,
+  children,
+}: PaginationButtonProps) => (
+  <li className={`page-item${disabled ? " disabled" : ""}`}>
+    <button
+      type="button"
+      className="page-link"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+    >
+      {children}
+    </button>
+  </li>
+);
 
 export const RepositoryPagination = ({
   currentPage,
@@ -25,57 +51,49 @@ export const RepositoryPagination = ({
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
+  const isPrevDisabled = isFirstPage || isFetching;
+  const isNextDisabled = isLastPage || isFetching;
 
   return (
     <nav
       aria-label="Paginação de repositórios"
-      className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+      className="pagination-wrapper d-flex justify-content-center"
     >
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        <Button
-          variant="secondary"
-          className="min-h-[44px] min-w-[44px] px-3"
+      <ul className="pagination pagination-github mb-0 flex-wrap justify-content-center">
+        <PaginationButton
+          disabled={isPrevDisabled}
+          label="Primeira página"
           onClick={() => onPageChange(1)}
-          disabled={isFirstPage || isFetching}
-          aria-label="Primeira página"
         >
           <FiChevronsLeft aria-hidden="true" />
-        </Button>
-
-        <Button
-          variant="secondary"
-          className="min-h-[44px] min-w-[44px] px-3"
+        </PaginationButton>
+        <PaginationButton
+          disabled={isPrevDisabled}
+          label="Página anterior"
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={isFirstPage || isFetching}
-          aria-label="Página anterior"
         >
           <FiChevronLeft aria-hidden="true" />
-        </Button>
-
-        <span className="min-w-[120px] px-3 text-center text-sm font-medium text-foreground-muted">
-          Página {currentPage} de {totalPages}
-        </span>
-
-        <Button
-          variant="secondary"
-          className="min-h-[44px] min-w-[44px] px-3"
+        </PaginationButton>
+        <li className="page-item active">
+          <span className="page-link">
+            Página {currentPage} de {totalPages}
+          </span>
+        </li>
+        <PaginationButton
+          disabled={isNextDisabled}
+          label="Próxima página"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={isLastPage || isFetching}
-          aria-label="Próxima página"
         >
           <FiChevronRight aria-hidden="true" />
-        </Button>
-
-        <Button
-          variant="secondary"
-          className="min-h-[44px] min-w-[44px] px-3"
+        </PaginationButton>
+        <PaginationButton
+          disabled={isNextDisabled}
+          label="Última página"
           onClick={() => onPageChange(totalPages)}
-          disabled={isLastPage || isFetching}
-          aria-label="Última página"
         >
           <FiChevronsRight aria-hidden="true" />
-        </Button>
-      </div>
+        </PaginationButton>
+      </ul>
     </nav>
   );
 };

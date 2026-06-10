@@ -9,24 +9,12 @@ export const UserProfileSkeleton = () => {
       aria-label="Carregando..."
     >
       <Skeleton className="sk-avatar mb-3 mx-auto mx-lg-0" />
-
-      <Skeleton
-        className="sk-name mb-3 mx-auto mx-lg-0"
-        style={{ height: "1.25rem", width: "8rem" }}
-      />
-
-      <Skeleton
-        className="sk-bio mb-3"
-        style={{ height: "2.5rem", width: "100%" }}
-      />
-
+      <Skeleton className="sk-name mb-3 mx-auto mx-lg-0" />
+      <Skeleton className="sk-bio mb-3" />
       <Row className="user-profile-stats g-2">
         {Array.from({ length: 3 }).map((_, index) => (
           <Col xs={4} key={index} className="min-w-0">
-            <Skeleton
-              className="sk-stat"
-              style={{ height: "2.5rem", width: "100%" }}
-            />
+            <Skeleton className="sk-stat" />
           </Col>
         ))}
       </Row>

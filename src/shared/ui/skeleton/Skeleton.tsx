@@ -1,11 +1,13 @@
 type SkeletonProps = {
   className?: string;
+  style?: React.CSSProperties;
 };
 
-export const Skeleton = ({ className = "" }: SkeletonProps) => {
+export const Skeleton = ({ className = "", style }: SkeletonProps) => {
   return (
     <div
-      className={`skeleton-shimmer rounded-xl ${className}`}
+      className={`skeleton rounded ${className}`}
+      style={style}
       aria-hidden="true"
     />
   );

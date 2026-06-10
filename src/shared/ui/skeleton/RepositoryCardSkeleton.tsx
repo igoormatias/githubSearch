@@ -5,13 +5,13 @@ export const RepositoryCardSkeleton = () => {
   return (
     <Card className="border">
       <Card.Body>
-        <Skeleton className="mb-3" style={{ height: "1.25rem", width: "40%" }} />
-        <Skeleton className="mb-2" style={{ height: "1rem", width: "100%" }} />
-        <Skeleton className="mb-3" style={{ height: "1rem", width: "80%" }} />
+        <Skeleton className="sk-repo-card-title mb-3" />
+        <Skeleton className="sk-repo-card-line mb-2" />
+        <Skeleton className="sk-repo-card-line-short mb-3" />
         <div className="d-flex gap-3 pt-2">
-          <Skeleton style={{ height: "1rem", width: "4rem" }} />
-          <Skeleton style={{ height: "1rem", width: "3rem" }} />
-          <Skeleton style={{ height: "1rem", width: "3rem" }} />
+          <Skeleton className="sk-repo-card-meta" />
+          <Skeleton className="sk-repo-card-meta-sm" />
+          <Skeleton className="sk-repo-card-meta-sm" />
         </div>
       </Card.Body>
     </Card>
