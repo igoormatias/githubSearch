@@ -101,14 +101,14 @@ npm run test
 npm run test:coverage
 ```
 
-O projeto possui **16 arquivos de teste** (66 testes), cobrindo:
+O projeto possui **17 arquivos de teste** (73 testes), cobrindo:
 
 - **Hooks:** `useGithubUser`, `useRepositories`, `useSearchForm`
 - **Services:** `searchUserRepositories`
 - **Utils:** `mapSortToSearchOrder`, `format`, `parsePageParam`, `parseSortParam`
 - **Schemas:** `search.schema` (validação Zod do username)
 - **Páginas:** `UserPage`, `RepositoryPage`
-- **Componentes:** `SearchForm`, `UserProfile`, `RepositoryCard`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
+- **Componentes:** `SearchForm`, `UserProfile`, `RepositoryCard`, `RepositoryHeader`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
 
 **Cobertura (`npm run test:coverage`):** o relatório mede os módulos-fonte cobertos pelos testes acima — hooks, services, utils, componentes testados, `UserPage` e `shared/lib` (conforme `vite.config.ts`).
 
@@ -193,19 +193,8 @@ Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 re
 - `placeholderData: keepPreviousData` mantém a listagem visível durante troca de página, evitando flicker
 - `isFetching` desabilita controles de paginação durante troca de página
 
-## Atendimento ao edital
+## Requisitos atendidos
 
-| Requisito | Implementação |
-|-----------|---------------|
-| App client-side (React) | SPA React 19 + Vite |
-| Rotas `/`, `/user/:username`, `/repository/:owner/:repo` | [`src/app/router.tsx`](src/app/router.tsx) |
-| Buscar usuário GitHub | [`SearchForm`](src/features/search/components/SearchForm.tsx) + [`search.schema`](src/features/search/schemas/search.schema.ts) (Zod) + verificação na API |
-| Avatar, bio, email, seguidores, seguindo | [`UserProfile`](src/features/github-user/components/UserProfile.tsx) — email com fallback "Email não público" |
-| Repos ordenados por estrelas + alterar ordenação | Search API + `sort=stars-desc` / `stars-asc` na URL |
-| Paginação (100+ repos) | 10 por página via Search API |
-| Detalhes do repositório | [`RepositoryPage`](src/features/repositories/pages/RepositoryPage.tsx) |
-| Layout responsivo Bootstrap | React-Bootstrap 5 + tema escuro |
-| Fetch/Axios | [`api-client.ts`](src/shared/api/api-client.ts) |
-| README + instalação | Este arquivo + `.env.example` |
+SPA React client-side que cobre busca de usuários, perfil, listagem paginada e ordenada de repositórios e detalhes de cada repo. Detalhes de implementação em [Funcionalidades](#funcionalidades), [Rotas](#rotas), [API](#api) e [Screenshots](#screenshots).
 
 ---

@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "../services/user-service";
+import { githubUserQueryOptions } from "../queries/github-user-query";
 
 export const useGithubUser = (username: string | undefined) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["user", username],
-    queryFn: () => getUser(username!),
+    ...githubUserQueryOptions(username!),
     enabled: Boolean(username),
   });
 
