@@ -88,6 +88,12 @@ npm run build
 npm run preview
 ```
 
+## Deploy (Vercel)
+
+O projeto inclui [`vercel.json`](vercel.json) com rewrite SPA — todas as rotas (`/user/:username`, `/repository/:owner/:repo`, etc.) são redirecionadas para `index.html`, permitindo refresh e links diretos na demo publicada.
+
+Após o deploy, valide URLs como `/user/torvalds` e `/repository/torvalds/linux` diretamente no navegador.
+
 ## Lint
 
 ```bash
@@ -101,11 +107,11 @@ npm run test
 npm run test:coverage
 ```
 
-O projeto possui **17 arquivos de teste** (73 testes), cobrindo:
+O projeto possui **18 arquivos de teste** (83 testes), cobrindo:
 
 - **Hooks:** `useGithubUser`, `useRepositories`, `useSearchForm`
-- **Services:** `searchUserRepositories`
-- **Utils:** `mapSortToSearchOrder`, `format`, `parsePageParam`, `parseSortParam`
+- **Services:** `getUserRepositoriesPage`, `getUserRepositories`, `searchUserRepositories`
+- **Utils:** `sortRepositories`, `paginateRepositories`, `format`, `parsePageParam`, `parseSortParam`
 - **Schemas:** `search.schema` (validação Zod do username)
 - **Páginas:** `UserPage`, `RepositoryPage`
 - **Componentes:** `SearchForm`, `UserProfile`, `RepositoryCard`, `RepositoryHeader`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
@@ -136,7 +142,8 @@ Utiliza a API REST pública do GitHub. Token opcional via `VITE_GITHUB_TOKEN` (v
 | Endpoint | Uso |
 |----------|-----|
 | `GET /users/{username}` | Dados do perfil e validação na busca (antes de navegar) |
-| `GET /search/repositories?q=user:{username}&sort=stars&order={desc\|asc}&per_page=10&page={n}` | Lista paginada de repositórios ordenados por estrelas |
+| `GET /search/repositories?q=user:{username}&sort=stars&order={desc\|asc}&per_page=10&page={n}` | **Fluxo principal** — lista paginada de repositórios ordenados por estrelas |
+| `GET /users/{username}/repos?per_page=100&page={n}` | **Fallback** — quando a Search API retorna 403 (rate limit); busca todos os repos, ordena e pagina no client |
 | `GET /repos/{owner}/{repo}` | Detalhes do repositório |
 
 Headers enviados: `Accept: application/vnd.github+json` e `Authorization: Bearer {token}` quando configurado.
@@ -180,11 +187,13 @@ O edital cita Bootstrap como referência de **layout responsivo**. A UI usa Reac
 - Erros de formato, 404 e API exibidos inline no campo (Bootstrap Validation), sem layout shift
 - Loading no botão **Buscar** via `isSubmitting` ("Buscando...")
 
-### Search API + paginação
+### Search API + fallback `/users/repos`
 
-A listagem usa `GET /search/repositories?q=user:{username}&sort=stars` para garantir repositórios ordenados por popularidade globalmente, inclusive para usuários com 100+ repos. Paginação de 10 itens por página com `total_count` da API.
+A listagem usa `GET /search/repositories` como fluxo principal (paginação server-side, ordenação por estrelas), alinhado ao padrão de referência do desafio.
 
-Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 req/min sem autenticação (erro 403 exibido via `getErrorMessage`). Configure `VITE_GITHUB_TOKEN` para evitar bloqueios. TanStack Query mitiga re-fetch com cache de 5 minutos.
+Quando a Search API retorna **403** (rate limit sem token), o service `getUserRepositoriesPage` faz fallback automático para `GET /users/{username}/repos` (endpoint do edital), busca todas as páginas (100 por request), ordena com `sortRepositories` e pagina com `paginateRepositories` no client.
+
+Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 req/min sem autenticação. Configure `VITE_GITHUB_TOKEN` para evitar bloqueios. TanStack Query mitiga re-fetch com cache de 5 minutos.
 
 ### TanStack Query
 

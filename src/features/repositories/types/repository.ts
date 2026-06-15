@@ -22,7 +22,7 @@ export type RepositoryDetail = Repository;
 
 export type RepositorySortOption = "stars-desc" | "stars-asc";
 
-export type RepositorySearchResponse = {
+export type RepositoryListResponse = {
   total_count: number;
   items: Repository[];
 };

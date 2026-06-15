@@ -1,1 +1,1 @@
-export { apiClient, getErrorMessage, isNotFoundError } from "./api-client";
+export { apiClient, getErrorMessage, isNotFoundError, isRateLimitError } from "./api-client";

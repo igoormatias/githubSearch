@@ -5,10 +5,12 @@ export { RepositorySortSelect } from "./components/RepositorySortSelect";
 export { RepositoryPage } from "./pages/RepositoryPage";
 export {
   getRepository,
-  searchUserRepositories,
+  getUserRepositories,
+  getUserRepositoriesPage,
 } from "./services/repository-service";
 export { useRepositories } from "./hooks/useRepositories";
-export { mapSortToSearchOrder } from "./utils/map-sort-to-search-order";
+export { sortRepositories } from "./utils/sort-repositories";
+export { paginateRepositories } from "./utils/paginate-repositories";
 export {
   DEFAULT_REPOSITORY_SORT,
   REPOSITORIES_PER_PAGE,
@@ -18,6 +20,6 @@ export {
 export type {
   Repository,
   RepositoryDetail,
-  RepositorySearchResponse,
+  RepositoryListResponse,
   RepositorySortOption,
 } from "./types/repository";

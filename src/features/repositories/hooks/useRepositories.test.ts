@@ -2,11 +2,11 @@ import { waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderHookWithProviders } from "@/test/test-utils";
 import { useRepositories } from "./useRepositories";
-import { searchUserRepositories } from "../services/repository-service";
+import { getUserRepositoriesPage } from "../services/repository-service";
 import type { Repository } from "../types/repository";
 
 vi.mock("../services/repository-service", () => ({
-  searchUserRepositories: vi.fn(),
+  getUserRepositoriesPage: vi.fn(),
 }));
 
 const mockRepositories: Repository[] = [
@@ -35,7 +35,7 @@ describe("useRepositories", () => {
   });
 
   it("should return loading then success with totalCount", async () => {
-    vi.mocked(searchUserRepositories).mockResolvedValue({
+    vi.mocked(getUserRepositoriesPage).mockResolvedValue({
       total_count: 1,
       items: mockRepositories,
     });
@@ -54,7 +54,7 @@ describe("useRepositories", () => {
     expect(result.current.repositories).toEqual(mockRepositories);
     expect(result.current.totalCount).toBe(1);
     expect(result.current.error).toBeNull();
-    expect(searchUserRepositories).toHaveBeenCalledWith(
+    expect(getUserRepositoriesPage).toHaveBeenCalledWith(
       "octocat",
       1,
       "stars-desc",
@@ -63,7 +63,7 @@ describe("useRepositories", () => {
 
   it("should return error on failure", async () => {
     const error = new Error("API error");
-    vi.mocked(searchUserRepositories).mockRejectedValue(error);
+    vi.mocked(getUserRepositoriesPage).mockRejectedValue(error);
 
     const { result } = renderHookWithProviders(() =>
       useRepositories("octocat", 1, "stars-desc"),
@@ -85,6 +85,6 @@ describe("useRepositories", () => {
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.repositories).toEqual([]);
-    expect(searchUserRepositories).not.toHaveBeenCalled();
+    expect(getUserRepositoriesPage).not.toHaveBeenCalled();
   });
 });

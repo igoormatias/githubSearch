@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { searchUserRepositories } from "../services/repository-service";
+import { repositoriesQueryOptions } from "../queries/repositories-query";
 import type { RepositorySortOption } from "../types/repository";
 
 export const useRepositories = (
@@ -8,8 +8,7 @@ export const useRepositories = (
   sort: RepositorySortOption,
 ) => {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["repositories", username, page, sort],
-    queryFn: () => searchUserRepositories(username!, page, sort),
+    ...repositoriesQueryOptions(username!, page, sort),
     enabled: Boolean(username),
     placeholderData: keepPreviousData,
   });

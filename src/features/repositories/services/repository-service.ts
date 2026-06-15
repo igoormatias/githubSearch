@@ -1,19 +1,29 @@
-import { apiClient } from "@/shared/api";
+import { apiClient, isRateLimitError } from "@/shared/api";
 import type {
+  Repository,
   RepositoryDetail,
-  RepositorySearchResponse,
+  RepositoryListResponse,
   RepositorySortOption,
 } from "../types/repository";
 import { REPOSITORIES_PER_PAGE } from "../types/repository";
-import { mapSortToSearchOrder } from "../utils/map-sort-to-search-order";
+import { paginateRepositories } from "../utils/paginate-repositories";
+import { sortRepositories } from "../utils/sort-repositories";
+
+const GITHUB_REPOS_PER_PAGE = 100;
+
+const mapSortToSearchOrder = (
+  sort: RepositorySortOption,
+): "desc" | "asc" => {
+  return sort === "stars-desc" ? "desc" : "asc";
+};
 
 export const searchUserRepositories = async (
   username: string,
   page: number,
   sort: RepositorySortOption,
-): Promise<RepositorySearchResponse> => {
+): Promise<RepositoryListResponse> => {
   const order = mapSortToSearchOrder(sort);
-  const response = await apiClient.get<RepositorySearchResponse>(
+  const response = await apiClient.get<RepositoryListResponse>(
     "/search/repositories",
     {
       params: {
@@ -27,6 +37,53 @@ export const searchUserRepositories = async (
   );
 
   return response.data;
+};
+
+export const getUserRepositories = async (
+  username: string,
+): Promise<Repository[]> => {
+  const allRepositories: Repository[] = [];
+  let page = 1;
+
+  while (true) {
+    const response = await apiClient.get<Repository[]>(
+      `/users/${username}/repos`,
+      {
+        params: {
+          per_page: GITHUB_REPOS_PER_PAGE,
+          page,
+        },
+      },
+    );
+
+    allRepositories.push(...response.data);
+
+    if (response.data.length < GITHUB_REPOS_PER_PAGE) {
+      break;
+    }
+
+    page += 1;
+  }
+
+  return allRepositories;
+};
+
+export const getUserRepositoriesPage = async (
+  username: string,
+  page: number,
+  sort: RepositorySortOption,
+): Promise<RepositoryListResponse> => {
+  try {
+    return await searchUserRepositories(username, page, sort);
+  } catch (error) {
+    if (isRateLimitError(error)) {
+      const allRepositories = await getUserRepositories(username);
+      const sorted = sortRepositories(allRepositories, sort);
+      return paginateRepositories(sorted, page);
+    }
+
+    throw error;
+  }
 };
 
 export const getRepository = async (

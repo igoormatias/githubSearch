@@ -15,6 +15,10 @@ export const isNotFoundError = (error: unknown): boolean => {
   return isAxiosError(error) && error.response?.status === 404;
 };
 
+export const isRateLimitError = (error: unknown): boolean => {
+  return isAxiosError(error) && error.response?.status === 403;
+};
+
 export const getErrorMessage = (error: unknown): string => {
   if (isAxiosError(error)) {
     if (error.response?.status === 403) {
