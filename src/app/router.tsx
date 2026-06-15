@@ -1,10 +1,21 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "@/app/layouts";
 import { SearchPage } from "@/features/search";
-import { UserPage } from "@/features/github-user";
-import { RepositoryPage } from "@/features/repositories";
 import { RootErrorBoundary } from "./RootErrorBoundary";
 import { repositoryLoader } from "./routes/repository-route";
+
+const UserPage = lazy(() =>
+  import("@/features/github-user/pages/UserPage").then((module) => ({
+    default: module.UserPage,
+  })),
+);
+
+const RepositoryPage = lazy(() =>
+  import("@/features/repositories/pages/RepositoryPage").then((module) => ({
+    default: module.RepositoryPage,
+  })),
+);
 
 export const router = createBrowserRouter([
   {

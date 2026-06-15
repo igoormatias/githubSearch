@@ -34,4 +34,16 @@ describe("UserProfile", () => {
     const emailLink = screen.getByRole("link", { name: "octocat@github.com" });
     expect(emailLink).toHaveAttribute("href", "mailto:octocat@github.com");
   });
+
+  it("should show bio fallback when bio is empty", () => {
+    renderWithRouter(<UserProfile user={{ ...baseUser, bio: null }} />);
+
+    expect(screen.getByText("Sem bio disponível.")).toBeVisible();
+  });
+
+  it("should show user bio when available", () => {
+    renderWithRouter(<UserProfile user={baseUser} />);
+
+    expect(screen.getByText("GitHub mascot")).toBeVisible();
+  });
 });

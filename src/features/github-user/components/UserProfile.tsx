@@ -9,6 +9,7 @@ import {
 import { Col, Row, Stack } from "react-bootstrap";
 import type { GitHubUser } from "../types/user";
 import { formatNumber } from "@/shared/lib";
+import { UserAvatar } from "./UserAvatar";
 
 type UserProfileProps = {
   user: GitHubUser;
@@ -19,10 +20,10 @@ export const UserProfile = ({ user }: UserProfileProps) => {
 
   return (
     <aside className="user-sidebar text-center text-lg-start">
-      <img
+      <UserAvatar
         src={user.avatar_url}
         alt={`Avatar de ${user.login}`}
-        className="user-avatar mb-3 mx-auto mx-lg-0"
+        login={user.login}
       />
 
       <Stack gap={1} className="mb-3">
@@ -30,7 +31,9 @@ export const UserProfile = ({ user }: UserProfileProps) => {
         <p className="text-secondary mb-0">@{user.login}</p>
       </Stack>
 
-      {user.bio && <p className="user-bio mb-3">{user.bio}</p>}
+      <p className="user-bio mb-3">
+        {user.bio?.trim() || "Sem bio disponível."}
+      </p>
 
       <ul className="list-unstyled user-meta mb-0">
         {user.company && (

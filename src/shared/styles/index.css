@@ -446,6 +446,23 @@ body {
   flex-shrink: 0;
 }
 
+.user-avatar-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.user-avatar-fallback {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.user-avatar-initials {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
 @media (min-width: 576px) {
   .user-avatar {
     width: 6.5rem;
