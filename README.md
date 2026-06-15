@@ -92,8 +92,6 @@ npm run preview
 
 O projeto inclui [`vercel.json`](vercel.json) com rewrite SPA — todas as rotas (`/user/:username`, `/repository/:owner/:repo`, etc.) são redirecionadas para `index.html`, permitindo refresh e links diretos na demo publicada.
 
-Após o deploy, valide URLs como `/user/torvalds` e `/repository/torvalds/linux` diretamente no navegador.
-
 ## Lint
 
 ```bash
@@ -191,7 +189,7 @@ O edital cita Bootstrap como referência de **layout responsivo**. A UI usa Reac
 
 A listagem usa `GET /search/repositories` como fluxo principal (paginação server-side, ordenação por estrelas), alinhado ao padrão de referência do desafio.
 
-Quando a Search API retorna **403** (rate limit sem token), o service `getUserRepositoriesPage` faz fallback automático para `GET /users/{username}/repos` (endpoint do edital), busca todas as páginas (100 por request), ordena com `sortRepositories` e pagina com `paginateRepositories` no client.
+Quando a Search API retorna **403** (rate limit sem token), o service `getUserRepositoriesPage` faz fallback automático para `GET /users/{username}/repos`, busca todas as páginas (100 por request), ordena com `sortRepositories` e pagina com `paginateRepositories` no client.
 
 Limitações: Search API retorna no máximo 1000 resultados; rate limit de 10 req/min sem autenticação. Configure `VITE_GITHUB_TOKEN` para evitar bloqueios. TanStack Query mitiga re-fetch com cache de 5 minutos.
 
