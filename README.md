@@ -12,7 +12,8 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 4. Use **Ordenar por** para alternar entre **Mais estrelas** (`sort=stars-desc`, padrão) e **Menos estrelas** (`sort=stars-asc`).
 5. Navegue entre páginas com os controles de paginação (10 repositórios por página).
 6. Clique em um repositório para ver os detalhes; use **Abrir no GitHub** para abrir a página oficial.
-7. Teste um username inválido (ex.: `<>`) ou inexistente (ex.: `usuario-que-nao-existe-123`) — o erro aparece na própria tela de busca, sem trocar de página.
+7. Teste um username inválido (ex.: `<>`) ou inexistente (ex.: `usuario-que-nao-existe-123`) — o erro aparece inline na tela de busca, sem trocar de página.
+8. Acesse diretamente `/user/usuario-que-nao-existe-123` na URL — a página exibe o card `UserNotFound` com botão **Voltar**.
 
 ## Screenshots
 
@@ -32,11 +33,11 @@ Aplicação client-side para buscar usuários do GitHub, exibir detalhes do perf
 ## Funcionalidades
 
 - **Busca de usuários** — validação com Zod + React Hook Form; verificação na API antes de navegar; sugestões rápidas (`lucasmontano`, `torvalds`, `diego3g`, `maykbrito`)
-- **Perfil do usuário** — avatar, bio, email (ou fallback "Email não público"), site, link externo para o GitHub, contadores de repositórios, seguidores e seguindo
+- **Perfil do usuário** — avatar com skeleton até carregar (fallback com iniciais em erro), bio (ou fallback "Sem bio disponível."), email (ou fallback "Email não público"), site, link externo para o GitHub, contadores de repositórios, seguidores e seguindo
 - **Listagem de repositórios** — cards com linguagem, estrelas, forks e data de atualização; paginação de 10 por página
 - **Ordenação por estrelas** — mais estrelas (padrão) ou menos estrelas via GitHub Search API
 - **Detalhes do repositório** — metadados completos e botão "Abrir no GitHub"
-- **Estados de UI** — skeletons com animação shimmer (perfil, repositórios e detalhe), erros inline na busca, usuário não encontrado (404) na `UserPage`
+- **Estados de UI** — skeletons com animação shimmer (perfil, repositórios e detalhe); erros inline na busca (formato/404/API); usuário inexistente via URL direta exibe `UserNotFound` na `UserPage`
 - **Layout responsivo** — mobile-first; inputs com `font-size` ≥ 16px para evitar zoom automático no iOS Safari
 - **Cache de dados** — TanStack Query evita re-fetch desnecessário ao navegar entre páginas
 
@@ -105,14 +106,14 @@ npm run test
 npm run test:coverage
 ```
 
-O projeto possui **18 arquivos de teste** (83 testes), cobrindo:
+O projeto possui **19 arquivos de teste** (88 testes), cobrindo:
 
 - **Hooks:** `useGithubUser`, `useRepositories`, `useSearchForm`
 - **Services:** `getUserRepositoriesPage`, `getUserRepositories`, `searchUserRepositories`
 - **Utils:** `sortRepositories`, `paginateRepositories`, `format`, `parsePageParam`, `parseSortParam`
 - **Schemas:** `search.schema` (validação Zod do username)
 - **Páginas:** `UserPage`, `RepositoryPage`
-- **Componentes:** `SearchForm`, `UserProfile`, `RepositoryCard`, `RepositoryHeader`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
+- **Componentes:** `SearchForm`, `UserProfile`, `UserAvatar`, `RepositoryCard`, `RepositoryHeader`, `RepositoryList`, `RepositoryPagination`, `RepositorySortSelect`
 
 **Cobertura (`npm run test:coverage`):** o relatório mede os módulos-fonte cobertos pelos testes acima — hooks, services, utils, componentes testados, `UserPage` e `shared/lib` (conforme `vite.config.ts`).
 
@@ -148,7 +149,7 @@ Headers enviados: `Accept: application/vnd.github+json` e `Authorization: Bearer
 
 ## Arquitetura
 
-Projeto organizado por features em `src/features/`:
+**Feature-based** — código agrupado por domínio em `src/features/`, não por tipo de arquivo. Ref.: [Bulletproof React — Project Structure](https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md).
 
 ```
 src/
@@ -164,6 +165,7 @@ src/
 - **Hooks** (`useGithubUser`, `useRepositories`) — consomem services Axios via `useQuery`
 - **Estado na URL** — `useUserPageParams` sincroniza `page` e `sort` na rota do usuário; query params são resetados ao trocar de username
 - **Loader** (`repositoryLoader`) — pré-carrega dados na rota de detalhes do repositório
+- **Code splitting** — `UserPage` e `RepositoryPage` carregadas com `React.lazy` + `Suspense`
 - **Barrel exports** (`index.ts`) em cada feature — evitar deep imports
 - **Design tokens** — tema escuro via `data-bs-theme="dark"` e variáveis CSS em `src/shared/styles/index.css`
 - **Componentes UI** — wrappers finos em `shared/ui` sobre React-Bootstrap mantendo API estável
@@ -172,11 +174,7 @@ src/
 
 ### Bootstrap + tema escuro
 
-O edital cita Bootstrap como referência de **layout responsivo**. A UI usa React-Bootstrap com:
-
-- Grid responsivo (`Row`/`Col`), `Navbar`, `Form`, `Card`, skeleton customizado (`.skeleton`)
-- Tema escuro via `data-bs-theme="dark"` e override de variáveis (`--bs-body-bg`, `--bs-primary`, etc.)
-- Wrappers em `shared/ui` para não acoplar features ao Bootstrap diretamente
+React-Bootstrap para layout (`Row`/`Col`, `Navbar`, `Form`, `Card`) e validação de formulário. Visual escuro via `data-bs-theme="dark"` com paleta inspirada no GitHub mapeada para variáveis `--bs-*` em `src/shared/styles/index.css`. Wrappers em `shared/ui` desacoplam features do Bootstrap.
 
 ### Busca — React Hook Form + Zod
 
